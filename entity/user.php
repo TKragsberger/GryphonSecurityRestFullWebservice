@@ -2,31 +2,31 @@
 class User {
     
     private $id;
-    private $firstName;
-    private $lastName;
+    private $firstname;
+    private $lastname;
     
-    function __construct($id, $firstName, $lastName) {
+    function __construct($id, $firstname, $lastname) {
         $this->id = $id;
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
+        $this->firstname = $firstname;
+        $this->lastname = $lastname;
     }
     
-    function getFirstName() {
-        return $this->firstName;
+    function getFirstname() {
+        return $this->firstname;
     }
-    function getLastName() {
-        return $this->lastName;
+    function getLastname() {
+        return $this->lastname;
     }
     
     function getId() {
         return $this->id;
     }
     
-    function setFirstName($firstName) {
-        $this->firstName = $firstName;
+    function setFirstName($firstname) {
+        $this->firstname = $firstname;
     }
-    function setLastName($lastName) {
-        $this->lastName = $lastName;
+    function setLastName($lastname) {
+        $this->lastname = $lastname;
     }
     
 }
