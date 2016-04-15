@@ -1,5 +1,7 @@
 <?php
-include("./entity/user.php");
+include("../entity/user.php");
+include("../entity/customer.php");
+include("../entity/alarmReport.php");
 class dataSource{
     
     public function getUser($id){
@@ -33,5 +35,22 @@ class dataSource{
         }
         return NULL;
     }
+    public function createAlarmReport($alarmreport){
+       $returnAlarmReport = new alarmReport($alarmreport->CustomerName, $alarmreport->CustomerNumber, 
+               $alarmreport->StreetAndHouseNumber, $alarmreport->ZipCode, $alarmreport->City, 
+               $alarmreport->Phonenumber, $alarmreport->Date, $alarmreport->Time, $alarmreport->Zone, 
+               $alarmreport->BurglaryVandalism, $alarmreport->WindowDoorClosed, 
+               $alarmreport->ApprehendedPerson, $alarmreport->StaffError, 
+               $alarmreport->NothingToReport, $alarmreport->TechnicalError, 
+               $alarmreport->UnknownReason, $alarmreport->Other, $alarmreport->CancelDuringEmergency,
+               $alarmreport->CoverMade, $alarmreport->Remark, $alarmreport->Name,
+               $alarmreport->Installer, $alarmreport->ControlCenter, $alarmreport->GuardRadioedDate,
+               $alarmreport->GuardRadioedFrom, $alarmreport->GuardRadioedTo, $alarmreport->ArrivedAt,
+               $alarmreport->Done, $alarmreport->User);
+//        var_dump($alarmreport);
+       
+       return $alarmreport;
+    }
 }
+
 
