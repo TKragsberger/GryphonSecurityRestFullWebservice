@@ -2,6 +2,7 @@
 include("../entity/user.php");
 include("../entity/customer.php");
 include("../entity/alarmReport.php");
+include("../entity/address.php");
 class dataSource{
     
     public function getUser($id){
@@ -67,6 +68,22 @@ class dataSource{
         return $alarmreports;
         
        
+    }
+    public function getAddress($id) {
+       $addresses = array(
+           1=> new address("Københavns hovedbanegård", 1),
+           2=> new address("Lyngby St.", 2),
+           3=> new address("Farum St.", 3)
+           );
+       
+       foreach($addresses as $addressid => $address){
+            if($addressid == $id){
+                return $address;
+                break;
+            }
+        }
+       // var_dump($address);
+        return NULL;
     }
 }
 

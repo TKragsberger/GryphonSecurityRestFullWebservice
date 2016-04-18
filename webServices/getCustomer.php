@@ -6,8 +6,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
 {
     $request_body = file_get_contents('php://input');
     $data = json_decode($request_body);
-    $cutomer = $dataSource->getCustomer($data);
-    
+    $customer = $dataSource->getCustomer($data);
     if(empty($customer->getCustomerName())){
         deliver_response(200, false, NULL);
     }else{

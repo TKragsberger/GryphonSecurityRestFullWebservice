@@ -6,7 +6,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
 {
     $request_body = file_get_contents('php://input');
     $data = json_decode($request_body);
-    $address = $dataSource->getUser($data);
+    //var_dump($data);
+    $address = $dataSource->getAddress($data);
     
     if(empty($address->getId())){
         deliver_response(200, false, NULL);
@@ -17,13 +18,14 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
     deliver_response(400, false, NULL);
 }
 
-function deliver_response($status, $status_message, $user){
+function deliver_response($status, $status_message, $address){
     header("HTTP/1.1 $status $status_message");
     
-    $response['Id'] = $user->getId();
-    $response['Firstname'] = $user->getFirstname();
-    $response['Lastname'] = $user->getLastname();
-    
+    $response['Address'] = $address->getTheAdress();
+    $response['Addressid'] = $address->getId();
     $json_response = json_encode($response);
     echo $json_response;
 }
+
+
+
