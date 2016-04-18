@@ -46,10 +46,27 @@ class dataSource{
                $alarmreport->CoverMade, $alarmreport->Remark, $alarmreport->Name,
                $alarmreport->Installer, $alarmreport->ControlCenter, $alarmreport->GuardRadioedDate,
                $alarmreport->GuardRadioedFrom, $alarmreport->GuardRadioedTo, $alarmreport->ArrivedAt,
-               $alarmreport->Done, $alarmreport->User);
-//        var_dump($alarmreport);
+               $alarmreport->Done, $alarmreport->User); 
        
        return $alarmreport;
+    }
+    public function createAlarmReports($alarmreports){
+        //var_dump($alarmreports);
+        $returnAlarmReport = new alarmReport($alarmreports[0]->CustomerName, $alarmreports[0]->CustomerNumber, 
+               $alarmreports[0]->StreetAndHouseNumber, $alarmreports[0]->ZipCode, $alarmreports[0]->City, 
+               $alarmreports[0]->Phonenumber, $alarmreports[0]->Date, $alarmreports[0]->Time, $alarmreports[0]->Zone, 
+               $alarmreports[0]->BurglaryVandalism, $alarmreports[0]->WindowDoorClosed, 
+               $alarmreports[0]->ApprehendedPerson, $alarmreports[0]->StaffError, 
+               $alarmreports[0]->NothingToReport, $alarmreports[0]->TechnicalError, 
+               $alarmreports[0]->UnknownReason, $alarmreports[0]->Other, $alarmreports[0]->CancelDuringEmergency,
+               $alarmreports[0]->CoverMade, $alarmreports[0]->Remark, $alarmreports[0]->Name,
+               $alarmreports[0]->Installer, $alarmreports[0]->ControlCenter, $alarmreports[0]->GuardRadioedDate,
+               $alarmreports[0]->GuardRadioedFrom, $alarmreports[0]->GuardRadioedTo, $alarmreports[0]->ArrivedAt,
+               $alarmreports[0]->Done, $alarmreports[0]->User); 
+      //  echo 'Thomas..' . $returnAlarmReport->getCustomerName();
+        return $alarmreports;
+        
+       
     }
 }
 

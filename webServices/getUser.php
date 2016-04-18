@@ -6,12 +6,12 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
 {
     $request_body = file_get_contents('php://input');
     $data = json_decode($request_body);
-    $user = $dataSource->getUser($data);
+    $customer = $dataSource->getUser($data);
     
-    if(empty($user->getId())){
+    if(empty($customer->getId())){
         deliver_response(200, false, NULL);
     }else{
-        deliver_response(200, true, $user);
+        deliver_response(200, true, $customer);
     }
 } else {
     deliver_response(400, false, NULL);

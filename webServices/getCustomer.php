@@ -11,21 +11,21 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
     if(empty($customer->getCustomerName())){
         deliver_response(200, false, NULL);
     }else{
-        deliver_response(200, true, $user);
+        deliver_response(200, true, $customer);
     }
 } else {
     deliver_response(400, false, NULL);
 }
 
-function deliver_response($status, $status_message, $user){
+function deliver_response($status, $status_message, $customer){
     header("HTTP/1.1 $status $status_message");
 
-    $response['CustomerName'] = $user->getCustomerName();
-    $response['CustomerNumber'] = $user->getCustomerNumber();
-    $response['StreetHouseNumber'] = $user->getStreetHouseNumber();
-    $response['ZipCode'] = $user->getZipCode();
-    $response['City'] = $user->getCity();
-    $response['Phonenumber'] = $user->getPhonenumber();
+    $response['CustomerName'] = $customer->getCustomerName();
+    $response['CustomerNumber'] = $customer->getCustomerNumber();
+    $response['StreetHouseNumber'] = $customer->getStreetHouseNumber();
+    $response['ZipCode'] = $customer->getZipCode();
+    $response['City'] = $customer->getCity();
+    $response['Phonenumber'] = $customer->getPhonenumber();
     
     $json_response = json_encode($response);
     echo $json_response;
