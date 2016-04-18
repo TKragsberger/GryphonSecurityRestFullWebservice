@@ -2,31 +2,39 @@
 
 class address{
     
-    private $adress;
-    private $id;
+    private $adressName;
+    private $latitude;
+    private $longtitude;
   
-    function __construct($adress, $id) {
-        $this->adress = $adress;
-        $this->id = $id;
+    function __construct($adressName, $latitude, $longtitude) {
+        $this->adressName = $adressName;
+        $this->latitude = $latitude;
+        $this->longtitude = $longtitude;
     }
 
-    function getId() {
-        return $this->id;
+    function getAddressName() {
+        return $this->adressName;
     }
 
-    function setId($id) {
-        $this->id = $id;
+    function setAddressName($adressName) {
+        $this->adressName = $adressName;
+    }
+    function getLatitude() {
+        return $this->latitude;
     }
 
-   
-
-    function getTheAdress() {
-        return $this->adress;
+    function getLongtitude() {
+        return $this->longtitude;
     }
 
-    function setTheAdress($adress) {
-        $this->adress = $adress;
+    function setLatitude($latitude) {
+        $this->latitude = $latitude;
     }
+
+    function setLongtitude($longtitude) {
+        $this->longtitude = $longtitude;
+    }
+
 
 
     

@@ -9,7 +9,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
     //var_dump($data);
     $address = $dataSource->getAddress($data);
     
-    if(empty($address->getId())){
+    if(empty($address->getAddressName())){
         deliver_response(200, false, NULL);
     }else{
         deliver_response(200, true, $address);
@@ -21,8 +21,9 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
 function deliver_response($status, $status_message, $address){
     header("HTTP/1.1 $status $status_message");
     
-    $response['Address'] = $address->getTheAdress();
-    $response['Addressid'] = $address->getId();
+    $response['AddressName'] = $address->getAddressName();
+    $response['Latitude'] = $address->getLatitude();
+    $response['Longtitude'] = $address->getLongtitude();
     $json_response = json_encode($response);
     echo $json_response;
 }
