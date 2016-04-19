@@ -417,5 +417,49 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(TRUE, $actualResult);
         
     }
+    /**
+     * @covers dataSource::createNFCs
+     * 
+     */
+    public function testCreateNFCsFilled(){
+        //First NFC object
+        $testUser1 = new User(1, "Mike", "Heerwagen");
+        $testNFC1['RangeCheck'] = true;
+        $testNFC1['TagAddress'] =  "Kollegiebakken";
+        $testNFC1['Time'] = '15-05-2016';
+        $testNFC1['User'] = $testUser1->getFirstname();
+        //second NFC object
+        $testUser2 = new User(2, "Thomas", "Kragsberger");
+        $testNFC2['RangeCheck'] = true;
+        $testNFC2['TagAddress'] =  "Farum St";
+        $testNFC2['Time'] = null;
+        $testNFC2['User'] = $testUser2->getFirstname();
+        $testArray = array($testNFC1, $testNFC2);
+         $json_data = json_encode($testArray);
+        $data = json_decode($json_data);
+        $actualResult = $this->object->createNFCs($data);
+        
+        $this->assertEquals(true, $actualResult);
+    }    public function testCreateNFCsWithErrorRangeCheckAndTagAddress(){
+        //First NFC object
+        $testUser1 = new User(1, "Mike", "Heerwagen");
+        $testNFC1['RangeCheck'] = null;
+        $testNFC1['TagAddress'] =  null;
+        $testNFC1['Time'] = '15-05-2016';
+        $testNFC1['User'] = $testUser1->getFirstname();
+        //second NFC object
+        $testUser2 = new User(2, "Thomas", "Kragsberger");
+        $testNFC2['RangeCheck'] = true;
+        $testNFC2['TagAddress'] =  "Farum St";
+        $testNFC2['Time'] = null;
+        $testNFC2['User'] = $testUser2->getFirstname();
+        $testArray = array($testNFC1, $testNFC2);
+         $json_data = json_encode($testArray);
+        $data = json_decode($json_data);
+        $actualResult = $this->object->createNFCs($data);
+        
+        $this->assertNotEquals(true, $actualResult);
+    }   
+    
 
 }
