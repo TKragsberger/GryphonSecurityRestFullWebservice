@@ -284,8 +284,8 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
     public function testGetAddress() {
         // Remove the following lines when you implement this test.
         $testAddress = new address("Farum St.", 55.8117694, 12.373767000000043);
-        $actualResult = $this->object->getAddress($testAddress->getId());
-        $this->assertEquals($testAddress, $actualResult);
+        $actualResult = $this->object->getAddress($testAddress->getAddressName());
+        $this->assertEquals($testAddress->getAddressName(), $actualResult);
     }
 
 }
