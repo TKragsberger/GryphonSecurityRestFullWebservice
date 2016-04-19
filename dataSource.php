@@ -99,8 +99,13 @@ class dataSource{
 }
       public function createNFCs($nfcs){
         
-          
+          foreach ($nfcs as $nfc){
+             if (!$this->createNFC($nfc)){
+                 return false;
+             }
+          }
           return true;
+          
       }
 
 }

@@ -7,18 +7,16 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
     $request_body = file_get_contents('php://input');
     $data = json_decode($request_body);
     $result = $dataSource->createNFCs($data);
-    echo $result;
-   // var_dump($result);
-    deliver_response(200, true);
+
+    deliver_response(200, true, $result);
 } else {
-    deliver_response(400, false);
+    deliver_response(400, false, null);
 }
 
-function deliver_response($status, $status_message){
+function deliver_response($status, $status_message, $result){
     header("HTTP/1.1 $status $status_message");
 
-    $response = boolval($status_message);
-    
+    $response = boolval($result);
     $json_response = json_encode($response);
     echo $json_response;
 }
