@@ -257,6 +257,14 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($testUser->getId(), $actualReulst->getUser()->getId());
         
         
+    }public function testCreateAlarmReportUserAndCustomerName(){
+        $testUser = new User(1, "Thomas", "Kragsberger");
+        $testAlarmReport = new alarmReport("Per", NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,NULL , NULL, $testUser);
+        $actualReulst = $this->object->createAlarmReport($testAlarmReport);
+        $this->assertEquals($testUser->getId(), $actualReulst->getUser()->getId());
+        $this->assertEquals($testAlarmReport->getCustomerName(), $actualReulst->getCustomerName());
+        
+        
     }
     
     
@@ -286,6 +294,128 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         $testAddress = new address("Farum St.", 55.8117694, 12.373767000000043);
         $actualResult = $this->object->getAddress(3);
         $this->assertEquals($testAddress->getAddressName(), $actualResult->getAddressName());
+    }
+    /**
+     * @covers dataSource::createNFC
+     * 
+     */
+    public function testCreateNFCFilled(){
+        $testUser = new User(1, "Thomas", "Kragsberger");
+        $testNFC['RangeCheck'] = TRUE;
+        $testNFC['TagAddress'] = "Farum St.";
+        $testNFC['Time'] = '16-03-2016';
+        $testNFC['User'] = $testUser->getFirstname();
+        $json_data = json_encode($testNFC);
+        $data = json_decode($json_data);
+                
+            
+        $actualResult = $this->object->createNFC($data);
+        $this->assertEquals(TRUE, $actualResult);
+    }
+    public function testCreateNFCMissingAllRows(){
+        $testUser = new User(null, null, null);
+        $testNFC['RangeCheck'] = false;
+        $testNFC['TagAddress'] =  "";
+        $testNFC['Time'] = "";
+        $testNFC['User'] = $testUser->getFirstname();
+        $json_data = json_encode($testNFC);
+        $data = json_decode($json_data);
+                
+            
+        $actualResult = $this->object->createNFC($data);
+        $this->assertNotEquals(TRUE, $actualResult);
+        
+    }public function testCreateNFCMissingUser(){
+        $testUser = new User(null, null, null);
+        $testNFC['RangeCheck'] = true;
+        $testNFC['TagAddress'] =  "Skovbakkerne";
+        $testNFC['Time'] = '16-03-2016';
+        $testNFC['User'] = $testUser->getFirstname();
+        $json_data = json_encode($testNFC);
+        $data = json_decode($json_data);
+                
+            
+        $actualResult = $this->object->createNFC($data);
+        $this->assertNotEquals(TRUE, $actualResult);
+        
+    }public function testCreateNFCMissingRangeCheck(){
+        $testUser = new User(1, "Mike", "Heerwagen");
+        $testNFC['RangeCheck'] = null;
+        $testNFC['TagAddress'] =  "Skovbakkerne";
+        $testNFC['Time'] = '16-03-2016';
+        $testNFC['User'] = $testUser->getFirstname();
+        $json_data = json_encode($testNFC);
+        $data = json_decode($json_data);
+                
+            
+        $actualResult = $this->object->createNFC($data);
+        $this->assertEquals(TRUE, $actualResult);
+        
+    }public function testCreateNFCMissingTagAddress(){
+        $testUser = new User(1, "Mike", "Heerwagen");
+        $testNFC['RangeCheck'] = true;
+        $testNFC['TagAddress'] =  null;
+        $testNFC['Time'] = '16-03-2016';
+        $testNFC['User'] = $testUser->getFirstname();
+        $json_data = json_encode($testNFC);
+        $data = json_decode($json_data);
+                
+            
+        $actualResult = $this->object->createNFC($data);
+        $this->assertNotEquals(TRUE, $actualResult);
+        
+    }public function testCreateNFCMissingTime(){
+        $testUser = new User(1, "Mike", "Heerwagen");
+        $testNFC['RangeCheck'] = true;
+        $testNFC['TagAddress'] =  "Tronsgårdsvej 42";
+        $testNFC['Time'] = null;
+        $testNFC['User'] = $testUser->getFirstname();
+        $json_data = json_encode($testNFC);
+        $data = json_decode($json_data);
+                
+            
+        $actualResult = $this->object->createNFC($data);
+        $this->assertEquals(TRUE, $actualResult);
+        
+    }public function testCreateNFCMissingEntireUser(){
+        $testUser = new User(1, "Mike", "Heerwagen");
+        $testNFC['RangeCheck'] = true;
+        $testNFC['TagAddress'] =  "Tronsgårdsvej 42";
+        $testNFC['Time'] = '16-06-2016';
+        $testNFC['User'] = null;
+        $json_data = json_encode($testNFC);
+        $data = json_decode($json_data);
+                
+            
+        $actualResult = $this->object->createNFC($data);
+        $this->assertNotEquals(TRUE, $actualResult);
+        
+    }public function testCreateNFCMissingRangeCheckAndTagAddress(){
+        $testUser = new User(1, "Mike", "Heerwagen");
+        $testNFC['RangeCheck'] = null;
+        $testNFC['TagAddress'] =  null;
+        $testNFC['Time'] = '13-11-2014';
+        $testNFC['User'] = $testUser->getFirstname();
+        $json_data = json_encode($testNFC);
+        $data = json_decode($json_data);
+                
+            
+        $actualResult = $this->object->createNFC($data);
+        $this->assertNotEquals(TRUE, $actualResult);
+        
+    }public function testCreateNFCMissingTimeAndRangeCheck(){
+        $testUser = new User(1, "Mike", "Heerwagen");
+        $testNFC['RangeCheck'] = null;
+        $testNFC['TagAddress'] =  "Søborg Hovedgade";
+        $testNFC['Time'] = null;
+        $testNFC['User'] = $testUser->getFirstname();
+        $json_data = json_encode($testNFC);
+        $data = json_decode($json_data);
+                
+            
+        $actualResult = $this->object->createNFC($data);
+        $this->assertEquals(TRUE, $actualResult);
+        
     }
 
 }

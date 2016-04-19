@@ -3,6 +3,7 @@ include("../entity/user.php");
 include("../entity/customer.php");
 include("../entity/alarmReport.php");
 include("../entity/address.php");
+include("../entity/NFC.php");
 class dataSource{
     
     public function getUser($id){
@@ -87,6 +88,14 @@ class dataSource{
        // var_dump($address);
         return NULL;
     }
+      public function createNFC($nfc){
+          
+        $returnNFC = new NFC($nfc->RangeCheck, $nfc->TagAddress, $nfc->Time, $nfc->User);
+        if ($returnNFC->getTagAddress()!= "" && $returnNFC->getUser() != ""){
+            return true;
+        }
+        return false;
+    
 }
 
-
+}
