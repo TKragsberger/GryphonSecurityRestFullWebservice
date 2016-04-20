@@ -107,5 +107,23 @@ class dataSource{
           return true;
           
       }
+      public function createCustomer($customer){
+          $returnCustomer = new customer($customer->CustomerName, $customer->CustomerNumber, $customer->StreetHouseNumber, $customer->ZipCode, $customer->City, $customer->Phonenumber);
+      
+          if($returnCustomer->getCustomerName()!="" && $returnCustomer->getCustomerNumber()!="" && $returnCustomer->getStreetHouseNumber()!= "" && $returnCustomer->getZipCode()!= "" && $returnCustomer->getCity()!= "" && $returnCustomer->getPhonenumber()!= "" ){
+              return true;
+              
+          }return false;
+      }
+         public function createCustomers($customers){
+        
+          foreach ($customers as $customer){
+             if (!$this->createCustomer($customer)){
+                 return false;
+             }
+          }
+          return true;
+          
+      }
 
 }

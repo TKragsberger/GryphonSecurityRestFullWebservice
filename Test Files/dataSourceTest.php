@@ -460,6 +460,43 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         
         $this->assertNotEquals(true, $actualResult);
     }   
+    public function testCreateCustomerWithErrorCustomerName(){
+        $testCustomer['CustomerName'] = null;
+        $testCustomer['CustomerNumber'] =  123;
+        $testCustomer['StreetHouseNumber'] = "hervej 100";
+        $testCustomer['ZipCode'] = 4400;
+        $testCustomer['City'] ="Lyngby";
+        $testCustomer['Phonenumber']=12312312;
+        $json_data = json_encode($testCustomer);
+        $data = json_decode($json_data);
+                
+            
+        $actualResult = $this->object->createCustomer($data);
+        $this->assertEquals(TRUE, $actualResult);
+    }
+    
+    public function testCustomersFilled(){
+        
+        //First customer
+        $testCustomer['CustomerName'] = "Mogens";
+        $testCustomer['CustomerNumber'] =  123;
+        $testCustomer['StreetHouseNumber'] = "hervej 100";
+        $testCustomer['ZipCode'] = 2800;
+        $testCustomer['City'] ="Lyngby";
+        $testCustomer['Phonenumber']=12312312;
+        //second Customer
+        $testCustomer2['CustomerName'] = "Ib";
+        $testCustomer2['CustomerNumber'] =  1234;
+        $testCustomer2['StreetHouseNumber'] = "hervej 10";
+        $testCustomer2['ZipCode'] = 4400;
+        $testCustomer2['City'] ="Kalundborg";
+        $testCustomer2['Phonenumber']=45645645;
+        $testArray = array($testCustomer,$testCustomer2);
+        $json_data = json_encode($testArray);
+        $data = json_decode($json_data);
+        $actualResult = $this->object->createNFCs($data);
+        $this->assertEquals(true, $actualResult);
+    }
     
 
 }
