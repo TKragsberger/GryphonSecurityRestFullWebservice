@@ -30,11 +30,20 @@ class dataSource{
         }
         return NULL;
     }
+    public function getEmployeeDB($id){
+           $conn = $this->getConnection();
+         if ($conn->connect_error) {
+         die("Connection failed: " . $conn->connect_error);
+         $sql = "SELECT * FROM Employee WHERE EmployeeId =" . $id;
+         $result = $conn->query($sql);
+} 
+        return $result;
+    }
     public function getCustomerDB($id){
          $conn = $this->getConnection();
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
-         $sql = "SELECT CustomerNumber, CustomerName, StreetAndHouseNumber,Zipcode,City,Phonenumber FROM Customer WHERE CustomerNumber =" . $id;
+         $sql = "SELECT * FROM Customer WHERE CustomerNumber =" . $id;
          $result = $conn->query($sql);
 } 
         return $result;
@@ -60,7 +69,7 @@ class dataSource{
           }
           return true;
     }
-    public function getAddressesDB($data){
+    public function getAddressDB($data){
          $conn = $this->getConnection();
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);

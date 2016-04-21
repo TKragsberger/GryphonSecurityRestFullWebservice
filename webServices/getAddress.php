@@ -7,7 +7,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
     $request_body = file_get_contents('php://input');
     $data = json_decode($request_body);
     //var_dump($data);
-    $address = $dataSource->getAddress($data);
+    $address = $dataSource->getAddressDB($data);
     
     if(empty($address->getAddressName())){
         deliver_response(200, false, NULL);
