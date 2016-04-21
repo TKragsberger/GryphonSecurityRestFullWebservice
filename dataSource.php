@@ -6,7 +6,14 @@ include("../entity/address.php");
 include("../entity/NFC.php");
 include("../connection.php");
 class dataSource{
+    private static $con;
     
+    private function getConnection(){
+        if (NULL===static::$con){
+            static::$con = new connection();
+        }
+        return static::$con->getConnection();
+    }
 
     public function getUser($id){
         $users = array(
@@ -24,18 +31,16 @@ class dataSource{
         return NULL;
     }
     public function getCustomerDB($id){
-         $classConn = new Connection();
-         $conn = $classConn->getConnection();
+         $conn = $this->getConnection();
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
-         $sql = "SELECT CustomerNumber, CustomerName, StreetAndHouseNumber,Zipcode,City,Phonenumber FROM Customer WHERE CustomerNumber ="+$id;
+         $sql = "SELECT CustomerNumber, CustomerName, StreetAndHouseNumber,Zipcode,City,Phonenumber FROM Customer WHERE CustomerNumber =" . $id;
          $result = $conn->query($sql);
 } 
         return $result;
     }
     public function createAlarmReportDB($alarmreport){
-         $classConn = new Connection();
-         $conn = $classConn->getConnection();
+         $conn = $this->getConnection();
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
          $sql ="INSERT INTO AlarmReport (Date, Time,Zone,BurglaryVandalism, WindowDoorClosed,ApprehededPerson,StaffError,NothingToReport,TechnicalError,UnknownReason,Other,ReasonCodeId,CancelDuringEmergency,CancelDuringEmergencyTime,CoverMade,CoverMadeBy,Remark,Name,Installer,ControlCenter,GuardRadioedDate,GuardRadioedFrom,GuardRadioedTo,ArrivedAt,Done,EmployeeId,ReportCreated,CustomerName,CustomerNumber,CustomerAddress,ZipCode,City,Phonenumber)
@@ -55,19 +60,17 @@ class dataSource{
           }
           return true;
     }
-    public function getAddressesDB(){
-         $classConn = new Connection();
-         $conn = $classConn->getConnection();
+    public function getAddressesDB($data){
+         $conn = $this->getConnection();
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
-         $sql = "SELECT AddressID, TagAddress, Longitude,Latitude,CustomerId FROM Address";
+         $sql = "SELECT * FROM Address WHERE AddressId =" . $data;
          $result = $conn->query($sql);
 } 
         return $result;
     }
     public function createNFCDB($nfc){
-         $classConn = new Connection();
-         $conn = $classConn->getConnection();
+          $conn = $this->getConnection();
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
          $sql = "INSERT INTO NFC (RangeCheck,Time,EmployeeId,AddressId) VALUES('"+$nfc->RangeCheck+"','"+$nfc->Time+"',"+$nfc->EmployeeId+","+$nfc->AddressId+") ";
@@ -84,8 +87,7 @@ class dataSource{
           return true;
     }
     public function createCustomerDB($customer){
-          $classConn = new Connection();
-         $conn = $classConn->getConnection();
+         $conn = $this->getConnection();
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
          $sql = "INSERT INTO Customer (CustomerNumber,CustomerName,StreetAndHouseNumber,Zipcode,City,Phonenumber) VALUES("+$customer->CustomerNumber+",'"+$Customer->CustomerName+"','"+$Customer->StreetAndHouseNumber+"',"+$customer->Zipcode+",'"+$customer->City+"',"+$customer->Phonenumber+") ";
