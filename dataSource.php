@@ -1,5 +1,5 @@
 <?php
-include("../entity/user.php");
+include("../entity/Employee.php");
 include("../entity/customer.php");
 include("../entity/alarmReport.php");
 include("../entity/address.php");
@@ -35,17 +35,18 @@ class dataSource{
            $conn = $this->getConnection();
          echo 'HEJ THOMAS';
          if ($conn->connect_error) {
-         echo 'HEJ MIG';
-         //die("Connection failed: " . $conn->connect_error);
-         $sql = "SELECT * FROM EMPLOYEE WHERE EmployeeId =" . $id;
-         $result = $conn->query($sql);
-         $row = $result->fetch_assoc();
-         $employee = new Employee($row[EmployeeId], $row[Firstname], $row[Lastname]);
-         echo 'kig her mofos------------------------------------';
-         
-         
-         var_dump($employee);
-} 
+            echo 'HEJ MIG';
+            die("Connection failed: " . $conn->connect_error);
+            } 
+            $sql = "SELECT * FROM EMPLOYEE WHERE EmployeeId =" . $id;
+            $result = $conn->query($sql);
+            $row = $result->fetch_assoc();
+            $employee = new Employee($row['EmployeeId'], $row['Firstname'], $row['Lastname']);
+            echo 'kig her mofos------------------------------------';
+
+
+            var_dump($employee);
+        
         return $employee;
     }
     public function getCustomerDB($id){
