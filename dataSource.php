@@ -31,13 +31,20 @@ class dataSource{
         return NULL;
     }
     public function getEmployeeDB($id){
+        echo 'HEJ MIKE';
            $conn = $this->getConnection();
          if ($conn->connect_error) {
-         die("Connection failed: " . $conn->connect_error);
-         $sql = "SELECT * FROM Employee WHERE EmployeeId =" . $id;
+         //die("Connection failed: " . $conn->connect_error);
+         $sql = "SELECT * FROM EMPLOYEE WHERE EmployeeId =" . $id;
          $result = $conn->query($sql);
+         $row = $result->fetch_assoc();
+         $employee = new Employee($row[EmployeeId], $row[Firstname], $row[Lastname]);
+         echo 'kig her mofos------------------------------------';
+         
+         
+         var_dump($employee);
 } 
-        return $result;
+        return $employee;
     }
     public function getCustomerDB($id){
          $conn = $this->getConnection();

@@ -6,12 +6,11 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
 {
     $request_body = file_get_contents('php://input');
     $data = json_decode($request_body);
-    $address = $dataSource->getEmployeeDB ($data);
-    
-    if(empty($address->getId())){
+    $result = $dataSource->getEmployeeDB($data);
+    if(empty($result->getId())){
         deliver_response(200, false, NULL);
     }else{
-        deliver_response(200, true, $address);
+        deliver_response(200, true, $result);
     }
 } else {
     deliver_response(400, false, NULL);
