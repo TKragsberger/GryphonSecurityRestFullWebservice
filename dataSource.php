@@ -6,13 +6,13 @@ include("../entity/address.php");
 include("../entity/NFC.php");
 include("../connection.php");
 class dataSource{
-    private static $con;
+    private static $conn;
     
     private function getConnection(){
-        if (NULL===static::$con){
-            static::$con = new connection();
+        if (NULL===static::$conn){
+            static::$conn = new connection();
         }
-        return static::$con->getConnection();
+        return static::$conn->getConnection();
     }
 
     public function getEmployee($id){
@@ -33,7 +33,9 @@ class dataSource{
     public function getEmployeeDB($id){
         echo 'HEJ MIKE';
            $conn = $this->getConnection();
+         echo 'HEJ THOMAS';
          if ($conn->connect_error) {
+         echo 'HEJ MIG';
          //die("Connection failed: " . $conn->connect_error);
          $sql = "SELECT * FROM EMPLOYEE WHERE EmployeeId =" . $id;
          $result = $conn->query($sql);
