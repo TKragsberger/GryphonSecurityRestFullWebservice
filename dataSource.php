@@ -54,7 +54,7 @@ class dataSource{
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
          }
-         $sql = "SELECT * FROM Customer WHERE CustomerNumber =" . $id;
+         $sql = "SELECT * FROM CUSTOMER WHERE CustomerNumber =" . $id;
          
          $result = $conn->query($sql);
          $row = $result->fetch_assoc();
@@ -67,7 +67,7 @@ class dataSource{
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
          }
-         $sql ="INSERT INTO AlarmReport (Date, Time,Zone,BurglaryVandalism, WindowDoorClosed,ApprehededPerson,StaffError,NothingToReport,TechnicalError,UnknownReason,Other,ReasonCodeId,CancelDuringEmergency,CancelDuringEmergencyTime,CoverMade,CoverMadeBy,Remark,Name,Installer,ControlCenter,GuardRadioedDate,GuardRadioedFrom,GuardRadioedTo,ArrivedAt,Done,EmployeeId,ReportCreated,CustomerName,CustomerNumber,CustomerAddress,ZipCode,City,Phonenumber)
+         $sql ="INSERT INTO ALARMREPORT (Date, Time,Zone,BurglaryVandalism, WindowDoorClosed,ApprehededPerson,StaffError,NothingToReport,TechnicalError,UnknownReason,Other,ReasonCodeId,CancelDuringEmergency,CancelDuringEmergencyTime,CoverMade,CoverMadeBy,Remark,Name,Installer,ControlCenter,GuardRadioedDate,GuardRadioedFrom,GuardRadioedTo,ArrivedAt,Done,EmployeeId,ReportCreated,CustomerName,CustomerNumber,CustomerAddress,ZipCode,City,Phonenumber)
          VALUES ('"+$alarmreport->Date+"', '"+$alarmreport->Time+"', '"+$alarmreport->Zone>+"',"+$alarmreport->BurglaryVadalism+","+$alarmreport->WindowDoorClosed+","+$alarmreport->ApprehededPerson+","+$alarmreport->StaffError+","+$alarmreport->NothingToReport+","+$alarmreport->TechnicalError+","+$alarmreport->UnknownReason+","+$alarmreport->Other+","+$alarmreport->ReasonCodeId+","+$alarmreport->CancelDuringEmergency+",'"+$alarmreport->CancelDuringEmergencyTime+"',"+$alarmreport->CoverMade+",'"+$alarmreport->CoverMadeBy+"','"+$alarmreport->Remark+"','"+$alarmreport->Name+"','"+$alarmreport->Installer+"','"+$alarmreport->ControlCenter+"','"+$alarmreport->GuardRadioedDate+"','"+$alarmreport->GuardRadioedFrom+"','"+$alarmreport->GuardRadioedTo+"','"+$alarmreport->ArrivedAt+"','"+$alarmreport->Done+"',"+$alarmreport->EmployeeId+",'"+$alarmreport->ReportCreated+"','"+$alarmreport->CustomerName+"',"+$alarmreport->CustomerNumber+",'"+$alarmreport->CustomerAddress+"',"+$alarmreport->ZipCode+",'"+$alarmreport->City+"',"+$alarmreport->Phonenumber+")";
 
          $result = $conn->query($sql);
@@ -89,7 +89,7 @@ class dataSource{
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
          }
-         $sql = "SELECT * FROM Address WHERE AddressId =" . $data;
+         $sql = "SELECT * FROM ADDRESS WHERE AddressId =" . $data;
          $result = $conn->query($sql);
          $row = $result->fetch_assoc();
             $address = new address($row['TagAddress'], $row['Latitude'], $row['Longtitude']);
@@ -119,7 +119,7 @@ class dataSource{
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
          } 
-         $sql = "INSERT INTO Customer (CustomerNumber,CustomerName,StreetAndHouseNumber,Zipcode,City,Phonenumber) VALUES("+$customer->CustomerNumber+",'"+$Customer->CustomerName+"','"+$Customer->StreetAndHouseNumber+"',"+$customer->Zipcode+",'"+$customer->City+"',"+$customer->Phonenumber+") ";
+         $sql = "INSERT INTO CUSTOMER (CustomerNumber,CustomerName,StreetAndHouseNumber,Zipcode,City,Phonenumber) VALUES("+$customer->CustomerNumber+",'"+$Customer->CustomerName+"','"+$Customer->StreetAndHouseNumber+"',"+$customer->Zipcode+",'"+$customer->City+"',"+$customer->Phonenumber+") ";
          $result = $conn->query($sql);
           
         return $result;
@@ -200,7 +200,7 @@ class dataSource{
        // var_dump($address);
         return NULL;
     }
-      public function createNFC($nfc){
+    public function createNFC($nfc){
           
         $returnNFC = new NFC($nfc->RangeCheck, $nfc->TagAddress, $nfc->Time, $nfc->User);
         if ($returnNFC->getTagAddress()!= "" && $returnNFC->getUser() != ""){
@@ -209,7 +209,7 @@ class dataSource{
         return false;
     
 }
-      public function createNFCs($nfcs){
+    public function createNFCs($nfcs){
         
           foreach ($nfcs as $nfc){
              if (!$this->createNFC($nfc)){
@@ -219,7 +219,7 @@ class dataSource{
           return true;
           
       }
-      public function createCustomer($customer){
+    public function createCustomer($customer){
           $returnCustomer = new customer($customer->CustomerName, $customer->CustomerNumber, $customer->StreetHouseNumber, $customer->ZipCode, $customer->City, $customer->Phonenumber);
       
           if($returnCustomer->getCustomerName()!="" && $returnCustomer->getCustomerNumber()!="" && $returnCustomer->getStreetHouseNumber()!= "" && $returnCustomer->getZipCode()!= "" && $returnCustomer->getCity()!= "" && $returnCustomer->getPhonenumber()!= "" ){
@@ -227,7 +227,7 @@ class dataSource{
               
           }return false;
       }
-         public function createCustomers($customers){
+    public function createCustomers($customers){
         
           foreach ($customers as $customer){
              if (!$this->createCustomer($customer)){
