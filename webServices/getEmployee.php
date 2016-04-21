@@ -17,12 +17,12 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
     deliver_response(400, false, NULL);
 }
 
-function deliver_response($status, $status_message, $user){
+function deliver_response($status, $status_message, $employee){
     header("HTTP/1.1 $status $status_message");
     
-    $response['Id'] = $user->getId();
-    $response['Firstname'] = $user->getFirstname();
-    $response['Lastname'] = $user->getLastname();
+    $response['Id'] = $employee->getId();
+    $response['Firstname'] = $employee->getFirstname();
+    $response['Lastname'] = $employee->getLastname();
     
     $json_response = json_encode($response);
     echo $json_response;
