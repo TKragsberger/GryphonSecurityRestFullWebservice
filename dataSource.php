@@ -4,8 +4,10 @@ include("../entity/customer.php");
 include("../entity/alarmReport.php");
 include("../entity/address.php");
 include("../entity/NFC.php");
+include("../connection.php");
 class dataSource{
     
+
     public function getUser($id){
         $users = array(
         1 => new User(1, "Thomas", "Kragsberger"),
@@ -20,6 +22,85 @@ class dataSource{
             }
         }
         return NULL;
+    }
+    public function getCustomerDB($id){
+         $classConn = new Connection();
+         $conn = $classConn->getConnection();
+         if ($conn->connect_error) {
+         die("Connection failed: " . $conn->connect_error);
+         $sql = "SELECT CustomerNumber, CustomerName, StreetAndHouseNumber,Zipcode,City,Phonenumber FROM Customer WHERE CustomerNumber ="+$id;
+         $result = $conn->query($sql);
+} 
+        return $result;
+    }
+    public function createAlarmReportDB($alarmreport){
+         $classConn = new Connection();
+         $conn = $classConn->getConnection();
+         if ($conn->connect_error) {
+         die("Connection failed: " . $conn->connect_error);
+         $sql ="INSERT INTO AlarmReport (Date, Time,Zone,BurglaryVandalism, WindowDoorClosed,ApprehededPerson,StaffError,NothingToReport,TechnicalError,UnknownReason,Other,ReasonCodeId,CancelDuringEmergency,CancelDuringEmergencyTime,CoverMade,CoverMadeBy,Remark,Name,Installer,ControlCenter,GuardRadioedDate,GuardRadioedFrom,GuardRadioedTo,ArrivedAt,Done,EmployeeId,ReportCreated,CustomerName,CustomerNumber,CustomerAddress,ZipCode,City,Phonenumber)
+         VALUES ('"+$alarmreport->Date+"', '"+$alarmreport->Time+"', '"+$alarmreport->Zone>+"',"+$alarmreport->BurglaryVadalism+","+$alarmreport->WindowDoorClosed+","+$alarmreport->ApprehededPerson+","+$alarmreport->StaffError+","+$alarmreport->NothingToReport+","+$alarmreport->TechnicalError+","+$alarmreport->UnknownReason+","+$alarmreport->Other+","+$alarmreport->ReasonCodeId+","+$alarmreport->CancelDuringEmergency+",'"+$alarmreport->CancelDuringEmergencyTime+"',"+$alarmreport->CoverMade+",'"+$alarmreport->CoverMadeBy+"','"+$alarmreport->Remark+"','"+$alarmreport->Name+"','"+$alarmreport->Installer+"','"+$alarmreport->ControlCenter+"','"+$alarmreport->GuardRadioedDate+"','"+$alarmreport->GuardRadioedFrom+"','"+$alarmreport->GuardRadioedTo+"','"+$alarmreport->ArrivedAt+"','"+$alarmreport->Done+"',"+$alarmreport->EmployeeId+",'"+$alarmreport->ReportCreated+"','"+$alarmreport->CustomerName+"',"+$alarmreport->CustomerNumber+",'"+$alarmreport->CustomerAddress+"',"+$alarmreport->ZipCode+",'"+$alarmreport->City+"',"+$alarmreport->Phonenumber+")";
+
+         $result = $conn->query($sql);
+} 
+        return $result;
+    }
+    
+    public function createAlarmReportsDB($alarmreports){
+         
+        foreach ($alarmreports as $alarmreport){
+             if (!$this->createAlarmReportDB($alarmreport)){
+                 return false;
+             }
+          }
+          return true;
+    }
+    public function getAddressesDB(){
+         $classConn = new Connection();
+         $conn = $classConn->getConnection();
+         if ($conn->connect_error) {
+         die("Connection failed: " . $conn->connect_error);
+         $sql = "SELECT AddressID, TagAddress, Longitude,Latitude,CustomerId FROM Address";
+         $result = $conn->query($sql);
+} 
+        return $result;
+    }
+    public function createNFCDB($nfc){
+         $classConn = new Connection();
+         $conn = $classConn->getConnection();
+         if ($conn->connect_error) {
+         die("Connection failed: " . $conn->connect_error);
+         $sql = "INSERT INTO NFC (RangeCheck,Time,EmployeeId,AddressId) VALUES('"+$nfc->RangeCheck+"','"+$nfc->Time+"',"+$nfc->EmployeeId+","+$nfc->AddressId+") ";
+         $result = $conn->query($sql);
+} 
+        return $result;
+    }
+    public function createNFCsDB($nfcs){
+            foreach ($nfcs as $nfc){
+             if (!$this->createNFCDB($nfc)){
+                 return false;
+             }
+          }
+          return true;
+    }
+    public function createCustomerDB($customer){
+          $classConn = new Connection();
+         $conn = $classConn->getConnection();
+         if ($conn->connect_error) {
+         die("Connection failed: " . $conn->connect_error);
+         $sql = "INSERT INTO Customer (CustomerNumber,CustomerName,StreetAndHouseNumber,Zipcode,City,Phonenumber) VALUES("+$customer->CustomerNumber+",'"+$Customer->CustomerName+"','"+$Customer->StreetAndHouseNumber+"',"+$customer->Zipcode+",'"+$customer->City+"',"+$customer->Phonenumber+") ";
+         $result = $conn->query($sql);
+} 
+        return $result;
+        
+    }
+    public function createCustomersDB($customers){
+            foreach ($customers as $customer){
+             if (!$this->createCustomerDB($customer)){
+                 return false;
+             }
+          }
+          return true;
     }
     
     public function getCustomer($id){
