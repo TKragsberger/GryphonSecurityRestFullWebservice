@@ -6,8 +6,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
 {
     $request_body = file_get_contents('php://input');
     $data = json_decode($request_body);
-    $result = $dataSource->getEmployee($data);
-    if(empty($result->getId())){
+    $result = $dataSource->getEmployeeDB($data);
+    if(empty($result->getEmployeeId())){
         deliver_response(200, false, NULL);
     }else{
         deliver_response(200, true, $result);
@@ -19,7 +19,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
 function deliver_response($status, $status_message, $employee){
     header("HTTP/1.1 $status $status_message");
     
-    $response['Id'] = $employee->getId();
+    $response['Id'] = $employee->getEmployeeId();
     $response['Firstname'] = $employee->getFirstname();
     $response['Lastname'] = $employee->getLastname();
     

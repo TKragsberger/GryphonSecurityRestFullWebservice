@@ -7,7 +7,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
     $request_body = file_get_contents('php://input');
     $data = json_decode($request_body);
     $result = $dataSource->createNFCDB($data);
-    echo $result;
+//    echo $result;
    // var_dump($result);
     deliver_response(200, true,$result);
 } else {

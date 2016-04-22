@@ -25,7 +25,7 @@ function deliver_response($status, $status_message, $address){
     $response['Latitude'] = $address->getLatitude();
     $response['Longtitude'] = $address->getLongtitude();
     $json_response = json_encode($response);
-    var_dump($json_response);
+//    var_dump($json_response);
     echo $json_response;
 }
 

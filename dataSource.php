@@ -17,13 +17,14 @@ class dataSource{
 
     public function getEmployee($id){
         $employees = array(
-        1 => new User(1, "Thomas", "Kragsberger"),
-        2 => new User(2, "Mike", "Heerwagen"),
-        3 => new User(3, "Jannik", "Vangsgaard")
+        1 => new Employee(1, "Thomas", "Kragsberger"),
+        2 => new Employee(2, "Mike", "Heerwagen"),
+        3 => new Employee(3, "Jannik", "Vangsgaard")
         );
 
         foreach($employees as $userId => $user){
             if($userId == $id){
+//                var_dump($user);
                 return $user;
                 break;
             }
@@ -31,21 +32,21 @@ class dataSource{
         return NULL;
     }
     public function getEmployeeDB($id){
-        echo 'HEJ MIKE';
+//        echo 'HEJ MIKE';
            $conn = $this->getConnection();
-         echo 'HEJ THOMAS';
+//         echo 'HEJ THOMAS';
          if ($conn->connect_error) {
-            echo 'HEJ MIG';
+//            echo 'HEJ MIG';
             die("Connection failed: " . $conn->connect_error);
             } 
             $sql = "SELECT * FROM EMPLOYEE WHERE EmployeeId =" . $id;
             $result = $conn->query($sql);
             $row = $result->fetch_assoc();
-            $employee = new Employee($row['EmployeeId'], $row['Firstname'], $row['Lastname']);
-            echo 'kig her mofos------------------------------------';
+            $employee = new Employee((int)$row['EmployeeId'], $row['Firstname']."", $row['Lastname']."");
+//            echo 'kig her mofos------------------------------------';
 
 
-            var_dump($employee);
+//            var_dump($employee);
         
         return $employee;
     }
@@ -67,14 +68,14 @@ class dataSource{
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
          }
-         var_dump($alarmreport);
-         echo '------------------------------------------------------------------------------------------';
-         $sql = "INSERT INTO ALARMREPORT (AlarmReportDate,AlarmReportTime,AlarmReportZone,BurglaryVandalism, WindowDoorClosed,ApprehededPerson,StaffError,NothingToReport,TechnicalError,UnknownReason,AlarmReportOther,ReasonCodeId,CancelDuringEmergency,CancelDuringEmergencyTime,CoverMade,CoverMadeBy,AlarmReportRemark,AlarmReportName,Installer,ControlCenter,GuardRadioedDate,GuardRadioedFrom,GuardRadioedTo,ArrivedAt,Done,EmployeeId,ReportCreated,CustomerName,CustomerNumber,CustomerAddress,Zipcode,City,Phonenumber) "
-                 . "VALUES ('$alarmreport->Date', '$alarmreport->Time', '$alarmreport->Zone',".$this->convertBoolean($alarmreport->BurglaryVandalism).",".$this->convertBoolean($alarmreport->WindowDoorClosed).",".$this->convertBoolean($alarmreport->ApprehededPerson).",".$this->convertBoolean($alarmreport->StaffError).",".$this->convertBoolean($alarmreport->NothingToReport).",".$this->convertBoolean($alarmreport->TechnicalError).",".$this->convertBoolean($alarmreport->UnknownReason).",".$this->convertBoolean($alarmreport->Other).","
-                 . $this->convertNull($alarmreport->ReasonCodeId).",".$this->convertBoolean($alarmreport->CancelDuringEmergency).",".$this->convertNull($alarmreport->CancelDuringEmergencyTime).",".$this->convertBoolean($alarmreport->CoverMade).",".$this->convertNull($alarmreport->CoverMadeBy).",'$alarmreport->Remark','$alarmreport->Name','$alarmreport->Installer','$alarmreport->ControlCenter','$alarmreport->GuardRadioedDate','$alarmreport->GuardRadioedFrom','$alarmreport->GuardRadioedTo','$alarmreport->ArrivedAt','$alarmreport->Done',$alarmreport->EmployeeId,'$alarmreport->ReportCreated','$alarmreport->CustomerName',$alarmreport->CustomerNumber,'$alarmreport->CustomerAddress',$alarmreport->Zipcode,'$alarmreport->City',$alarmreport->Phonenumber)";
+//         var_dump($alarmreport);
+//         echo '------------------------------------------------------------------------------------------';
+         $sql = "INSERT INTO ALARMREPORT (AlarmReportDate,AlarmReportTime,AlarmReportZone,BurglaryVandalism, WindowDoorClosed,ApprehendedPerson,StaffError,NothingToReport,TechnicalError,UnknownReason,AlarmReportOther,ReasonCodeId,CancelDuringEmergency,CancelDuringEmergencyTime,CoverMade,CoverMadeBy,AlarmReportRemark,AlarmReportName,Installer,ControlCenter,GuardRadioedDate,GuardRadioedFrom,GuardRadioedTo,ArrivedAt,Done,EmployeeId,ReportCreated,CustomerName,CustomerNumber,StreetAndHouseNumber,ZipCode,City,Phonenumber) "
+                 . "VALUES ('$alarmreport->Date', '$alarmreport->Time', '$alarmreport->Zone',".$this->convertBoolean($alarmreport->BurglaryVandalism).",".$this->convertBoolean($alarmreport->WindowDoorClosed).",".$this->convertBoolean($alarmreport->ApprehendedPerson).",".$this->convertBoolean($alarmreport->StaffError).",".$this->convertBoolean($alarmreport->NothingToReport).",".$this->convertBoolean($alarmreport->TechnicalError).",".$this->convertBoolean($alarmreport->UnknownReason).",".$this->convertBoolean($alarmreport->Other).","
+                 . $this->convertNull($alarmreport->ReasonCodeId).",".$this->convertBoolean($alarmreport->CancelDuringEmergency).",".$this->convertNull($alarmreport->CancelDuringEmergencyTime).",".$this->convertBoolean($alarmreport->CoverMade).",".$this->convertNull($alarmreport->CoverMadeBy).",'$alarmreport->Remark','$alarmreport->Name','$alarmreport->Installer','$alarmreport->ControlCenter','$alarmreport->GuardRadioedDate','$alarmreport->GuardRadioedFrom','$alarmreport->GuardRadioedTo','$alarmreport->ArrivedAt','$alarmreport->Done',$alarmreport->EmployeeId,'$alarmreport->ReportCreated','$alarmreport->CustomerName',$alarmreport->CustomerNumber,'$alarmreport->StreetAndHouseNumber',$alarmreport->ZipCode,'$alarmreport->City',$alarmreport->Phonenumber)";
 
-         var_dump($sql);
-         echo '------------------------------------------------------------------------------------------';
+//         var_dump($sql);
+//         echo '------------------------------------------------------------------------------------------';
          $result = $conn->query($sql);
          
         return $result;
@@ -107,33 +108,34 @@ class dataSource{
     }
     public function getAddressDB($data){
          $conn = $this->getConnection();
-         var_dump($data);
+//         var_dump($data);
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
          }
          $sql = "SELECT * FROM ADDRESS WHERE SearchParameter ='" . $data."'";
-         var_dump($sql);
+//         var_dump($sql);
          $result = $conn->query($sql);
-         var_dump($result);
+//         var_dump($result);
          $row = $result->fetch_assoc();
             $address = new address($data, $row['TagAddress'], floatval($row['Latitude']), floatval($row['Longtitude']));
-            var_dump($address);
+//            var_dump($address);
         return $address;
     }
     public function createNFCDB($nfc){
           $conn = $this->getConnection();
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
-         } 
+         }
+//         var_dump($nfc);
          $sql = "INSERT INTO NFC (RangeCheck,NFCTime,EmployeeId,AddressId) "
-                 . "VALUES('$nfc->RangeCheck','$nfc->Time',$nfc->EmployeeId,$nfc->AddressId) ";
+                 . "VALUES(".$this->convertBoolean($nfc->RangeCheck).",'$nfc->Time',$nfc->EmployeeId,'$nfc->AddressId') ";
+//         var_dump($sql);
          $result = $conn->query($sql);
         return $result;
     }
     public function createNFCsDB($nfcs){
             foreach ($nfcs as $nfc){
              if (!$this->createNFCDB($nfc)){
-                 return false;                 return false;
                  return false;
              }
           }
