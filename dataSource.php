@@ -69,13 +69,31 @@ class dataSource{
          }
          var_dump($alarmreport);
          echo '------------------------------------------------------------------------------------------';
-         $sql ="INSERT INTO ALARMREPORT (AlarmReportDate, AlarmReportTime,AlarmReportZone,BurglaryVandalism, WindowDoorClosed,ApprehededPerson,StaffError,NothingToReport,TechnicalError,UnknownReason,AlarmReportOther,ReasonCodeId,CancelDuringEmergency,CancelDuringEmergencyTime,CoverMade,CoverMadeBy,AlarmReportRemark,AlarmReportName,Installer,ControlCenter,GuardRadioedDate,GuardRadioedFrom,GuardRadioedTo,ArrivedAt,Done,EmployeeId,ReportCreated,CustomerName,CustomerNumber,CustomerAddress,Zipcode,City,Phonenumber)
-         VALUES ($alarmreport->AlarmReportDate, '$alarmreport->AlarmReportTime', '$alarmreport->AlarmReportZone>',$alarmreport->BurglaryVandalism,$alarmreport->WindowDoorClosed,$alarmreport->ApprehededPerson,$alarmreport->StaffError,$alarmreport->NothingToReport,$alarmreport->TechnicalError,$alarmreport->UnknownReason,$alarmreport->AlarmReportOther,$alarmreport->ReasonCodeId,$alarmreport->CancelDuringEmergency,'$alarmreport->CancelDuringEmergencyTime',"+$alarmreport->CoverMade+",'$alarmreport->CoverMadeBy','$alarmreport->AlarmReportRemark','$alarmreport->Name','$alarmreport->Installer','$alarmreport->ControlCenter','$alarmreport->GuardRadioedDate','$alarmreport->GuardRadioedFrom',+$alarmreport->GuardRadioedTo','$alarmreport->ArrivedAt','$alarmreport->Done',$alarmreport->EmployeeId,'$alarmreport->ReportCreated','$alarmreport->CustomerName',$alarmreport->CustomerNumber,'$alarmreport->CustomerAddress',$alarmreport->ZipCode,'$alarmreport->City',$alarmreport->Phonenumber)";
+         $sql = "INSERT INTO ALARMREPORT (AlarmReportDate,AlarmReportTime,AlarmReportZone,BurglaryVandalism, WindowDoorClosed,ApprehededPerson,StaffError,NothingToReport,TechnicalError,UnknownReason,AlarmReportOther,ReasonCodeId,CancelDuringEmergency,CancelDuringEmergencyTime,CoverMade,CoverMadeBy,AlarmReportRemark,AlarmReportName,Installer,ControlCenter,GuardRadioedDate,GuardRadioedFrom,GuardRadioedTo,ArrivedAt,Done,EmployeeId,ReportCreated,CustomerName,CustomerNumber,CustomerAddress,Zipcode,City,Phonenumber) "
+                 . "VALUES ('$alarmreport->Date', '$alarmreport->Time', '$alarmreport->Zone',".$this->convertBoolean($alarmreport->BurglaryVandalism).",".$this->convertBoolean($alarmreport->WindowDoorClosed).",".$this->convertBoolean($alarmreport->ApprehededPerson).",".$this->convertBoolean($alarmreport->StaffError).",".$this->convertBoolean($alarmreport->NothingToReport).",".$this->convertBoolean($alarmreport->TechnicalError).",".$this->convertBoolean($alarmreport->UnknownReason).",".$this->convertBoolean($alarmreport->Other).","
+                 . $this->convertNull($alarmreport->ReasonCodeId).",".$this->convertBoolean($alarmreport->CancelDuringEmergency).",".$this->convertNull($alarmreport->CancelDuringEmergencyTime).",".$this->convertBoolean($alarmreport->CoverMade).",".$this->convertNull($alarmreport->CoverMadeBy).",'$alarmreport->Remark','$alarmreport->Name','$alarmreport->Installer','$alarmreport->ControlCenter','$alarmreport->GuardRadioedDate','$alarmreport->GuardRadioedFrom','$alarmreport->GuardRadioedTo','$alarmreport->ArrivedAt','$alarmreport->Done',$alarmreport->EmployeeId,'$alarmreport->ReportCreated','$alarmreport->CustomerName',$alarmreport->CustomerNumber,'$alarmreport->CustomerAddress',$alarmreport->Zipcode,'$alarmreport->City',$alarmreport->Phonenumber)";
+
          var_dump($sql);
          echo '------------------------------------------------------------------------------------------';
          $result = $conn->query($sql);
          
         return $result;
+    }
+    
+    public function convertBoolean($boolean){
+        if($boolean){
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+    
+    public function convertNull($null){
+        if($null != NULL){
+            return "'".$null."'";
+        } else {
+            return "NULL";
+        }
     }
     
     public function createAlarmReportsDB($alarmreports){
@@ -89,14 +107,17 @@ class dataSource{
     }
     public function getAddressDB($data){
          $conn = $this->getConnection();
+         var_dump($data);
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
          }
-         $sql = "SELECT * FROM ADDRESS WHERE AddressId =" . $data;
+         $sql = "SELECT * FROM ADDRESS WHERE SearchParameter ='" . $data."'";
+         var_dump($sql);
          $result = $conn->query($sql);
+         var_dump($result);
          $row = $result->fetch_assoc();
-            $address = new address($row['TagAddress'], $row['Latitude'], $row['Longtitude']);
-            
+            $address = new address($data, $row['TagAddress'], floatval($row['Latitude']), floatval($row['Longtitude']));
+            var_dump($address);
         return $address;
     }
     public function createNFCDB($nfc){

@@ -6,7 +6,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
 {
     $request_body = file_get_contents('php://input');
     $data = json_decode($request_body);
-    $result = $dataSource->getEmployeeDB($data);
+    $result = $dataSource->getEmployee($data);
     if(empty($result->getId())){
         deliver_response(200, false, NULL);
     }else{

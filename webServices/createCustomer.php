@@ -14,7 +14,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
     deliver_response(400, false,null);
 }
 
-function deliver_response($status, $status_message,$result){
+function deliver_response($status, $status_message, $result){
     header("HTTP/1.1 $status $status_message");
 
     $response = boolval($result);
