@@ -125,7 +125,7 @@ class dataSource{
          die("Connection failed: " . $conn->connect_error);
          } 
          $sql = "INSERT INTO CUSTOMER (CustomerNumber,CustomerName,StreetAndHouseNumber,Zipcode,City,Phonenumber) "
-                 . "VALUES($customer->CustomerNumber,'"+$Customer->CustomerName+"','"+$Customer->StreetAndHouseNumber+"',$customer->Zipcode,'"+$customer->City+"',$customer->Phonenumber) ";
+                 . "VALUES($customer->CustomerNumber,'$Customer->CustomerName','$Customer->StreetAndHouseNumber',$customer->Zipcode,'$customer->City',$customer->Phonenumber) ";
          $result = $conn->query($sql);
           
         return $result;
