@@ -21,7 +21,7 @@ function deliver_response($status, $status_message, $customer){
 
     $response['CustomerName'] = $customer->getCustomerName();
     $response['CustomerNumber'] = $customer->getCustomerNumber();
-    $response['StreetHouseNumber'] = $customer->getStreetHouseNumber();
+    $response['StreetAndHouseNumber'] = $customer->getStreetHouseNumber();
     $response['ZipCode'] = $customer->getZipCode();
     $response['City'] = $customer->getCity();
     $response['Phonenumber'] = $customer->getPhonenumber();

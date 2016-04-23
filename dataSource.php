@@ -59,7 +59,7 @@ class dataSource{
          
          $result = $conn->query($sql);
          $row = $result->fetch_assoc();
-            $customer = new customer($row['CustomerName'], $row['CustomerNumber'], $row['StreetAndHouseNumber'], $row['Zipcode'], $row['City'], $row['Phonenumber']);
+            $customer = new customer($row['CustomerName'], $row['CustomerNumber'], $row['StreetAndHouseNumber'], $row['ZipCode'], $row['City'], $row['Phonenumber']);
             
         return $customer;
     }
@@ -146,8 +146,8 @@ class dataSource{
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
          } 
-         $sql = "INSERT INTO CUSTOMER (CustomerNumber,CustomerName,StreetAndHouseNumber,Zipcode,City,Phonenumber) "
-                 . "VALUES($customer->CustomerNumber,'$customer->CustomerName','$customer->StreetAndHouseNumber',$customer->Zipcode,'$customer->City',$customer->Phonenumber) ";
+         $sql = "INSERT INTO CUSTOMER (CustomerNumber,CustomerName,StreetAndHouseNumber,ZipCode,City,Phonenumber) "
+                 . "VALUES($customer->CustomerNumber,'$customer->CustomerName','$customer->StreetAndHouseNumber',$customer->ZipCode,'$customer->City',$customer->Phonenumber) ";
          $result = $conn->query($sql);
            
         return $result;

@@ -9,12 +9,12 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
     $result = $dataSource->createCustomersDB($data);
  
    // var_dump($result);
-    deliver_response(200, true,$result);
+    deliver_response(200, true, $result);
 } else {
     deliver_response(400, false,null);
 }
 
-function deliver_response($status, $status_message,$result){
+function deliver_response($status, $status_message, $result){
     header("HTTP/1.1 $status $status_message");
 
     $response = boolval($result);
