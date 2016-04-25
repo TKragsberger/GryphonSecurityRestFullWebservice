@@ -32,30 +32,25 @@ class dataSource{
         return NULL;
     }
     public function getEmployeeDB($id){
-//        echo 'HEJ MIKE';
            $conn = $this->getConnection();
-//         echo 'HEJ THOMAS';
+           $conn->query('set NAMES utf8');
          if ($conn->connect_error) {
-//            echo 'HEJ MIG';
             die("Connection failed: " . $conn->connect_error);
             } 
-            $sql = "SELECT * FROM EMPLOYEE WHERE EmployeeId =" . $id;
+            $sql = "SELECT * FROM SECURITY_APP_EMPLOYEE WHERE EmployeeId =" . $id;
             $result = $conn->query($sql);
             $row = $result->fetch_assoc();
             $employee = new Employee((int)$row['EmployeeId'], $row['Firstname']."", $row['Lastname']."");
-//            echo 'kig her mofos------------------------------------';
-
-
-//            var_dump($employee);
-        
+            
         return $employee;
     }
     public function getCustomerDB($id){
          $conn = $this->getConnection();
+         $conn->query('set NAMES utf8');
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
          }
-         $sql = "SELECT * FROM CUSTOMER WHERE CustomerNumber =" . $id;
+         $sql = "SELECT * FROM SECURITY_APP_CUSTOMER WHERE CustomerNumber =" . $id;
          
          $result = $conn->query($sql);
          $row = $result->fetch_assoc();
@@ -65,17 +60,13 @@ class dataSource{
     }
     public function createAlarmReportDB($alarmreport){
          $conn = $this->getConnection();
+         $conn->query('set NAMES utf8');
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
          }
-//         var_dump($alarmreport);
-//         echo '------------------------------------------------------------------------------------------';
-         $sql = "INSERT INTO ALARMREPORT (AlarmReportDate,AlarmReportTime,AlarmReportZone,BurglaryVandalism, WindowDoorClosed,ApprehendedPerson,StaffError,NothingToReport,TechnicalError,UnknownReason,AlarmReportOther,ReasonCodeId,CancelDuringEmergency,CancelDuringEmergencyTime,CoverMade,CoverMadeBy,AlarmReportRemark,AlarmReportName,Installer,ControlCenter,GuardRadioedDate,GuardRadioedFrom,GuardRadioedTo,ArrivedAt,Done,EmployeeId,ReportCreated,CustomerName,CustomerNumber,StreetAndHouseNumber,ZipCode,City,Phonenumber) "
+         $sql = "INSERT INTO SECURITY_APP_ALARMREPORT (AlarmReportDate,AlarmReportTime,AlarmReportZone,BurglaryVandalism, WindowDoorClosed,ApprehendedPerson,StaffError,NothingToReport,TechnicalError,UnknownReason,AlarmReportOther,ReasonCodeId,CancelDuringEmergency,CancelDuringEmergencyTime,CoverMade,CoverMadeBy,AlarmReportRemark,AlarmReportName,Installer,ControlCenter,GuardRadioedDate,GuardRadioedFrom,GuardRadioedTo,ArrivedAt,Done,EmployeeId,ReportCreated,CustomerName,CustomerNumber,StreetAndHouseNumber,ZipCode,City,Phonenumber) "
                  . "VALUES ('$alarmreport->Date', '$alarmreport->Time', '$alarmreport->Zone',".$this->convertBoolean($alarmreport->BurglaryVandalism).",".$this->convertBoolean($alarmreport->WindowDoorClosed).",".$this->convertBoolean($alarmreport->ApprehendedPerson).",".$this->convertBoolean($alarmreport->StaffError).",".$this->convertBoolean($alarmreport->NothingToReport).",".$this->convertBoolean($alarmreport->TechnicalError).",".$this->convertBoolean($alarmreport->UnknownReason).",".$this->convertBoolean($alarmreport->Other).","
                  . $this->convertNull($alarmreport->ReasonCodeId).",".$this->convertBoolean($alarmreport->CancelDuringEmergency).",".$this->convertNull($alarmreport->CancelDuringEmergencyTime).",".$this->convertBoolean($alarmreport->CoverMade).",".$this->convertNull($alarmreport->CoverMadeBy).",'$alarmreport->Remark','$alarmreport->Name','$alarmreport->Installer','$alarmreport->ControlCenter','$alarmreport->GuardRadioedDate','$alarmreport->GuardRadioedFrom','$alarmreport->GuardRadioedTo','$alarmreport->ArrivedAt','$alarmreport->Done',$alarmreport->EmployeeId,'$alarmreport->ReportCreated','$alarmreport->CustomerName',$alarmreport->CustomerNumber,'$alarmreport->StreetAndHouseNumber',$alarmreport->ZipCode,'$alarmreport->City',$alarmreport->Phonenumber)";
-
-//         var_dump($sql);
-//         echo '------------------------------------------------------------------------------------------';
          $result = $conn->query($sql);
          
         return $result;
@@ -108,28 +99,24 @@ class dataSource{
     }
     public function getAddressDB($data){
          $conn = $this->getConnection();
-//         var_dump($data);
+         $conn->query('set NAMES utf8');
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
          }
-         $sql = "SELECT * FROM ADDRESS WHERE SearchParameter ='" . $data."'";
-//         var_dump($sql);
+         $sql = "SELECT * FROM SECURITY_APP_ADDRESS WHERE SearchParameter ='" . $data."'";
          $result = $conn->query($sql);
-//         var_dump($result);
          $row = $result->fetch_assoc();
             $address = new address($data, $row['TagAddress'], floatval($row['Latitude']), floatval($row['Longtitude']));
-//            var_dump($address);
         return $address;
     }
     public function createNFCDB($nfc){
           $conn = $this->getConnection();
+          $conn->query('set NAMES utf8');
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
          }
-//         var_dump($nfc);
-         $sql = "INSERT INTO NFC (RangeCheck,NFCTime,EmployeeId,AddressId) "
+         $sql = "INSERT INTO SECURITY_APP_NFC (RangeCheck,NFCTime,EmployeeId,AddressId) "
                  . "VALUES(".$this->convertBoolean($nfc->RangeCheck).",'$nfc->Time',$nfc->EmployeeId,'$nfc->AddressId') ";
-//         var_dump($sql);
          $result = $conn->query($sql);
         return $result;
     }
@@ -143,10 +130,11 @@ class dataSource{
     }
     public function createCustomerDB($customer){
          $conn = $this->getConnection();
+         $conn->query('set NAMES utf8');
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
          } 
-         $sql = "INSERT INTO CUSTOMER (CustomerNumber,CustomerName,StreetAndHouseNumber,ZipCode,City,Phonenumber) "
+         $sql = "INSERT INTO SECURITY_APP_CUSTOMER (CustomerNumber,CustomerName,StreetAndHouseNumber,ZipCode,City,Phonenumber) "
                  . "VALUES($customer->CustomerNumber,'$customer->CustomerName','$customer->StreetAndHouseNumber',$customer->ZipCode,'$customer->City',$customer->Phonenumber) ";
          $result = $conn->query($sql);
            
