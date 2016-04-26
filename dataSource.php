@@ -31,43 +31,74 @@ class dataSource{
         }
         return NULL;
     }
+    
     public function getEmployeeDB($id){
-           $conn = $this->getConnection();
-           $conn->query('set NAMES utf8');
-         if ($conn->connect_error) {
+        $conn = $this->getConnection();
+        $conn->query('set NAMES utf8');
+        if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
-            } 
-            $sql = "SELECT * FROM SECURITY_APP_EMPLOYEE WHERE EmployeeId =" . $id;
-            $result = $conn->query($sql);
-            $row = $result->fetch_assoc();
-            $employee = new Employee((int)$row['EmployeeId'], $row['Firstname']."", $row['Lastname']."");
+        } 
+        $stmt = $conn->prepare("SELECT * FROM SECURITY_APP_EMPLOYEE WHERE EmployeeId =?");
+        $stmt->bind_param("s", $id);
+        $stmt->execute();
+        $stmt->bind_result($employeeId, $employeeFirstname, $employeeLastname, $employeeNumber);
+
+    
+        $stmt->fetch();
+        $employee = new Employee($employeeId, $employeeFirstname, $employeeLastname);
             
         return $employee;
     }
     public function getCustomerDB($id){
-         $conn = $this->getConnection();
-         $conn->query('set NAMES utf8');
-         if ($conn->connect_error) {
-         die("Connection failed: " . $conn->connect_error);
-         }
-         $sql = "SELECT * FROM SECURITY_APP_CUSTOMER WHERE CustomerNumber =" . $id;
-         
-         $result = $conn->query($sql);
-         $row = $result->fetch_assoc();
-            $customer = new customer($row['CustomerName'], $row['CustomerNumber'], $row['StreetAndHouseNumber'], $row['ZipCode'], $row['City'], $row['Phonenumber']);
+        $conn = $this->getConnection();
+        $conn->query('set NAMES utf8');
+        if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+        }
+        $stmt = $conn->prepare("SELECT * FROM SECURITY_APP_EMPLOYEE WHERE CustomerNumber =?");
+        $stmt->bind_param("s", $id);
+        $stmt->execute();
+        $stmt->bind_result($customerName, $customerNumber, $streetAndHouseNumber, $zipCode, $city, $phonenumber);
+
+    
+        $stmt->fetch();
+        
+        $customer = new customer($customerName, $customerNumber, $streetAndHouseNumber, $zipCode, $city, $phonenumber);
             
         return $customer;
     }
     public function createAlarmReportDB($alarmreport){
-         $conn = $this->getConnection();
-         $conn->query('set NAMES utf8');
-         if ($conn->connect_error) {
-         die("Connection failed: " . $conn->connect_error);
-         }
-         $sql = "INSERT INTO SECURITY_APP_ALARMREPORT (AlarmReportDate,AlarmReportTime,AlarmReportZone,BurglaryVandalism, WindowDoorClosed,ApprehendedPerson,StaffError,NothingToReport,TechnicalError,UnknownReason,AlarmReportOther,ReasonCodeId,CancelDuringEmergency,CancelDuringEmergencyTime,CoverMade,CoverMadeBy,AlarmReportRemark,AlarmReportName,Installer,ControlCenter,GuardRadioedDate,GuardRadioedFrom,GuardRadioedTo,ArrivedAt,Done,EmployeeId,ReportCreated,CustomerName,CustomerNumber,StreetAndHouseNumber,ZipCode,City,Phonenumber) "
-                 . "VALUES ('$alarmreport->Date', '$alarmreport->Time', '$alarmreport->Zone',".$this->convertBoolean($alarmreport->BurglaryVandalism).",".$this->convertBoolean($alarmreport->WindowDoorClosed).",".$this->convertBoolean($alarmreport->ApprehendedPerson).",".$this->convertBoolean($alarmreport->StaffError).",".$this->convertBoolean($alarmreport->NothingToReport).",".$this->convertBoolean($alarmreport->TechnicalError).",".$this->convertBoolean($alarmreport->UnknownReason).",".$this->convertBoolean($alarmreport->Other).","
-                 . $this->convertNull($alarmreport->ReasonCodeId).",".$this->convertBoolean($alarmreport->CancelDuringEmergency).",".$this->convertNull($alarmreport->CancelDuringEmergencyTime).",".$this->convertBoolean($alarmreport->CoverMade).",".$this->convertNull($alarmreport->CoverMadeBy).",'$alarmreport->Remark','$alarmreport->Name','$alarmreport->Installer','$alarmreport->ControlCenter','$alarmreport->GuardRadioedDate','$alarmreport->GuardRadioedFrom','$alarmreport->GuardRadioedTo','$alarmreport->ArrivedAt','$alarmreport->Done',$alarmreport->EmployeeId,'$alarmreport->ReportCreated','$alarmreport->CustomerName',$alarmreport->CustomerNumber,'$alarmreport->StreetAndHouseNumber',$alarmreport->ZipCode,'$alarmreport->City',$alarmreport->Phonenumber)";
-         $result = $conn->query($sql);
+        $conn = $this->getConnection();
+        $conn->query('set NAMES utf8');
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        $stmt = $conn->prepare("INSERT INTO SECURITY_APP_ALARMREPORT (AlarmReportDate ,AlarmReportTime ,AlarmReportZone ,BurglaryVandalism, "
+                            . "WindowDoorClosed, ApprehendedPerson, StaffError, NothingToReport, TechnicalError, UnknownReason, AlarmReportOther, "
+                            . "ReasonCodeId, CancelDuringEmergency, CancelDuringEmergencyTime, CoverMade, CoverMadeBy, AlarmReportRemark, AlarmReportName, "
+                            . "Installer, ControlCenter, GuardRadioedDate, GuardRadioedFrom, GuardRadioedTo, ArrivedAt, Done, EmployeeId, ReportCreated, "
+                            . "CustomerName, CustomerNumber, StreetAndHouseNumber, ZipCode, City, Phonenumber) "
+                            . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+//                    var_dump($stmt);
+        $stmt->bind_param("sssssssssssssssssssssssssssssssss", $alarmreport->Date, $alarmreport->Time, htmlspecialchars($alarmreport->Zone)
+                ,$this->convertBoolean($alarmreport->BurglaryVandalism),$this->convertBoolean($alarmreport->WindowDoorClosed)
+                ,$this->convertBoolean($alarmreport->ApprehendedPerson),$this->convertBoolean($alarmreport->StaffError)
+                ,$this->convertBoolean($alarmreport->NothingToReport),$this->convertBoolean($alarmreport->TechnicalError)
+                ,$this->convertBoolean($alarmreport->UnknownReason),$this->convertBoolean($alarmreport->Other)
+                ,$this->convertNull($alarmreport->ReasonCodeId),$this->convertBoolean($alarmreport->CancelDuringEmergency)
+                ,$this->convertNull($alarmreport->CancelDuringEmergencyTime),$this->convertBoolean($alarmreport->CoverMade)
+                ,htmlspecialchars($this->convertNull($alarmreport->CoverMadeBy)),htmlspecialchars($alarmreport->Remark),htmlspecialchars($alarmreport->Name)
+                ,htmlspecialchars($alarmreport->Installer),htmlspecialchars($alarmreport->ControlCenter),$alarmreport->GuardRadioedDate
+                ,$alarmreport->GuardRadioedFrom,$alarmreport->GuardRadioedTo,$alarmreport->ArrivedAt
+                ,$alarmreport->Done,$alarmreport->EmployeeId,$alarmreport->ReportCreated
+                ,htmlspecialchars($alarmreport->CustomerName),$alarmreport->CustomerNumber,htmlspecialchars($alarmreport->StreetAndHouseNumber)
+                ,$alarmreport->ZipCode,htmlspecialchars($alarmreport->City),$alarmreport->Phonenumber);
+//        $sql = "INSERT INTO SECURITY_APP_ALARMREPORT (AlarmReportDate,AlarmReportTime,AlarmReportZone,BurglaryVandalism, WindowDoorClosed,ApprehendedPerson,StaffError,NothingToReport,TechnicalError,UnknownReason,AlarmReportOther,ReasonCodeId,CancelDuringEmergency,CancelDuringEmergencyTime,CoverMade,CoverMadeBy,AlarmReportRemark,AlarmReportName,Installer,ControlCenter,GuardRadioedDate,GuardRadioedFrom,GuardRadioedTo,ArrivedAt,Done,EmployeeId,ReportCreated,CustomerName,CustomerNumber,StreetAndHouseNumber,ZipCode,City,Phonenumber) "
+//                . "VALUES ('$alarmreport->Date', '$alarmreport->Time', '$alarmreport->Zone',".$this->convertBoolean($alarmreport->BurglaryVandalism).",".$this->convertBoolean($alarmreport->WindowDoorClosed).",".$this->convertBoolean($alarmreport->ApprehendedPerson).",".$this->convertBoolean($alarmreport->StaffError).",".$this->convertBoolean($alarmreport->NothingToReport).",".$this->convertBoolean($alarmreport->TechnicalError).",".$this->convertBoolean($alarmreport->UnknownReason).",".$this->convertBoolean($alarmreport->Other).","
+//                . $this->convertNull($alarmreport->ReasonCodeId).",".$this->convertBoolean($alarmreport->CancelDuringEmergency).",".$this->convertNull($alarmreport->CancelDuringEmergencyTime).",".$this->convertBoolean($alarmreport->CoverMade).",".$this->convertNull($alarmreport->CoverMadeBy).",'$alarmreport->Remark','$alarmreport->Name','$alarmreport->Installer','$alarmreport->ControlCenter','$alarmreport->GuardRadioedDate','$alarmreport->GuardRadioedFrom','$alarmreport->GuardRadioedTo','$alarmreport->ArrivedAt','$alarmreport->Done',$alarmreport->EmployeeId,'$alarmreport->ReportCreated','$alarmreport->CustomerName',$alarmreport->CustomerNumber,'$alarmreport->StreetAndHouseNumber',$alarmreport->ZipCode,'$alarmreport->City',$alarmreport->Phonenumber)";
+        var_dump($stmt);
+        $result = $stmt->execute();
+        $stmt->close();
          
         return $result;
     }
@@ -98,26 +129,31 @@ class dataSource{
           return true;
     }
     public function getAddressDB($data){
-         $conn = $this->getConnection();
-         $conn->query('set NAMES utf8');
-         if ($conn->connect_error) {
-         die("Connection failed: " . $conn->connect_error);
-         }
-         $sql = "SELECT * FROM SECURITY_APP_ADDRESS WHERE SearchParameter ='" . $data."'";
-         $result = $conn->query($sql);
-         $row = $result->fetch_assoc();
-            $address = new address($data, $row['TagAddress'], floatval($row['Latitude']), floatval($row['Longtitude']));
+        $conn = $this->getConnection();
+        $conn->query('set NAMES utf8');
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        $stmt = $conn->prepare("SELECT * FROM SECURITY_APP_EMPLOYEE WHERE SearchParameter =?");
+        $stmt->bind_param("s", htmlspecialchars($data));
+
+        $stmt->execute();
+        $stmt->bind_result($tagAddress, $latitude, $longtitude);
+
+    
+        $stmt->fetch();
+        $address = new address($data, $tagAddress, $latitude, $longtitude);
         return $address;
     }
     public function createNFCDB($nfc){
-          $conn = $this->getConnection();
-          $conn->query('set NAMES utf8');
-         if ($conn->connect_error) {
-         die("Connection failed: " . $conn->connect_error);
-         }
-         $sql = "INSERT INTO SECURITY_APP_NFC (RangeCheck,NFCTime,EmployeeId,AddressId) "
-                 . "VALUES(".$this->convertBoolean($nfc->RangeCheck).",'$nfc->Time',$nfc->EmployeeId,'$nfc->AddressId') ";
-         $result = $conn->query($sql);
+        $conn = $this->getConnection();
+        $conn->query('set NAMES utf8');
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        $stmt = $conn->prepare("INSERT INTO SECURITY_APP_NFC (RangeCheck,NFCTime,EmployeeId,AddressId) VALUES (?,?,?,?)");
+        $stmt->bind_param("ssss", htmlspecialchars($this->convertBoolean($nfc->RangeCheck)), htmlspecialchars($nfc->Time), htmlspecialchars($nfc->EmployeeId), htmlspecialchars($nfc->AddressId));
+        $result = $conn->query($sql);
         return $result;
     }
     public function createNFCsDB($nfcs){
@@ -133,9 +169,9 @@ class dataSource{
          $conn->query('set NAMES utf8');
          if ($conn->connect_error) {
          die("Connection failed: " . $conn->connect_error);
-         } 
-         $sql = "INSERT INTO SECURITY_APP_CUSTOMER (CustomerNumber,CustomerName,StreetAndHouseNumber,ZipCode,City,Phonenumber) "
-                 . "VALUES($customer->CustomerNumber,'$customer->CustomerName','$customer->StreetAndHouseNumber',$customer->ZipCode,'$customer->City',$customer->Phonenumber) ";
+         }
+         $stmt = $conn->prepare("INSERT INTO SECURITY_APP_CUSTOMER (CustomerNumber,CustomerName,StreetAndHouseNumber,ZipCode,City,Phonenumber) VALUES(?,?,?,?,?,?)");
+        $stmt->bind_param("ssssss", htmlspecialchars($customer->CustomerNumber), htmlspecialchars($customer->CustomerName), htmlspecialchars($customer->StreetAndHouseNumber), htmlspecialchars($customer->ZipCode), htmlspecialchars($customer->City), htmlspecialchars($customer->Phonenumber));
          $result = $conn->query($sql);
            
         return $result;
