@@ -26,7 +26,7 @@ class NFC {
         return $this->time;
     }
 
-    function getUser() {
+    function getEmployee() {
         return $this->user;
     }
 

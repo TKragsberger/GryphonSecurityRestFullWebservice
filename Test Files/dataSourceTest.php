@@ -29,13 +29,13 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers dataSource::getUser
-     * @todo   Implement testGetUser().
+     * @covers dataSource::getEmployee
+     * @todo   Implement testgetEmployee().
      */
-    public function testGetUser() {
+    public function testgetEmployee() {
         // Remove the following lines when you implement this test.
         $testUser = new Employee(1, "Thomas", "Kragsberger");
-        $actualresult = $this->object->getEmployeeDB(1);
+        $actualresult = $this->object->getEmployee(1);
         $this->assertEquals($testUser, $actualresult);
     }
 
@@ -256,7 +256,7 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         $testUser = new Employee(1, "Thomas", "Kragsberger");
         $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,NULL , NULL, $testUser);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
-        $this->assertEquals($testUser->getEmployeeId(), $actualReulst->getUser()->getEmployeeId());
+        $this->assertEquals($testUser->getEmployeeId(), $actualReulst->getEmployee()->getEmployeeId());
         
         
     }
@@ -264,7 +264,7 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         $testUser = new Employee(1, "Thomas", "Kragsberger");
         $testAlarmReport = new alarmReport("Per", NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,NULL , NULL, $testUser);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
-        $this->assertEquals($testUser->getEmployeeId(), $actualReulst->getUser()->getEmployeeId());
+        $this->assertEquals($testUser->getEmployeeId(), $actualReulst->getEmployee()->getEmployeeId());
         $this->assertEquals($testAlarmReport->getCustomerName(), $actualReulst->getCustomerName());
         
         

@@ -175,7 +175,7 @@ class alarmReport{
         return $this->done;
     }
 
-    function getUser() {
+    function getEmployee() {
         return $this->user;
     }
 

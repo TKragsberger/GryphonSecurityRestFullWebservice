@@ -264,7 +264,7 @@ class dataSource {
     public function createNFC($nfc) {
 
         $returnNFC = new NFC($nfc->RangeCheck, $nfc->TagAddress, $nfc->Time, $nfc->User);
-        if ($returnNFC->getTagAddress() != "" && $returnNFC->getUser() != "") {
+        if ($returnNFC->getTagAddress() != "" && $returnNFC->getEmployee() != "") {
             return true;
         }
         return false;
