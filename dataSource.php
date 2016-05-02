@@ -246,9 +246,9 @@ class dataSource {
 
     public function getAddress($id) {
         $addresses = array(
-            1 => new address("Københavns hovedbanegård", 55.6928897, 12.547805),
-            2 => new address("Lyngby St.", 55.6928897, 12.502867899999956),
-            3 => new address("Farum St.", 55.8117694, 12.373767000000043)
+            1 => new address(1,"Københavns hovedbanegård", 55.6928897, 12.547805),
+            2 => new address(2,"Lyngby St.", 55.6928897, 12.502867899999956),
+            3 => new address(3,"Farum St.", 55.8117694, 12.373767000000043)
         );
 
         foreach ($addresses as $addressid => $address) {

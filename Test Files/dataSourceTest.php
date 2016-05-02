@@ -34,8 +34,8 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetUser() {
         // Remove the following lines when you implement this test.
-        $testUser = new User(1, "Thomas", "Kragsberger");
-        $actualresult = $this->object->getUser(1);
+        $testUser = new Employee(1, "Thomas", "Kragsberger");
+        $actualresult = $this->object->getEmployeeDB(1);
         $this->assertEquals($testUser, $actualresult);
     }
 
@@ -111,7 +111,8 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(22250898, $actualReulst->getPhoneNumber());
         
         
-    }   public function testCreateAlarmReportDate(){
+    }   
+    public function testCreateAlarmReportDate(){
         $testTime = new DateTime('18-04-2016');
         $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, $testTime, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
@@ -250,18 +251,20 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($testTime, $actualReulst->getDone());
         
         
-    }public function testCreateAlarmReportUser(){
-        $testUser = new User(1, "Thomas", "Kragsberger");
+    }
+    public function testCreateAlarmReportUser(){
+        $testUser = new Employee(1, "Thomas", "Kragsberger");
         $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,NULL , NULL, $testUser);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
-        $this->assertEquals($testUser->getId(), $actualReulst->getUser()->getId());
+        $this->assertEquals($testUser->getEmployeeId(), $actualReulst->getUser()->getEmployeeId());
         
         
-    }public function testCreateAlarmReportUserAndCustomerName(){
-        $testUser = new User(1, "Thomas", "Kragsberger");
+    }
+    public function testCreateAlarmReportUserAndCustomerName(){
+        $testUser = new Employee(1, "Thomas", "Kragsberger");
         $testAlarmReport = new alarmReport("Per", NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,NULL , NULL, $testUser);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
-        $this->assertEquals($testUser->getId(), $actualReulst->getUser()->getId());
+        $this->assertEquals($testUser->getEmployeeId(), $actualReulst->getUser()->getEmployeeId());
         $this->assertEquals($testAlarmReport->getCustomerName(), $actualReulst->getCustomerName());
         
         
@@ -291,7 +294,7 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetAddress() {
         // Remove the following lines when you implement this test.
-        $testAddress = new address("Farum St.", 55.8117694, 12.373767000000043);
+        $testAddress = new address(1,"Farum St.", 55.8117694, 12.373767000000043);
         $actualResult = $this->object->getAddress(3);
         $this->assertEquals($testAddress->getAddressName(), $actualResult->getAddressName());
     }
@@ -300,7 +303,7 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
      * 
      */
     public function testCreateNFCFilled(){
-        $testUser = new User(1, "Thomas", "Kragsberger");
+        $testUser = new Employee(1, "Thomas", "Kragsberger");
         $testNFC['RangeCheck'] = TRUE;
         $testNFC['TagAddress'] = "Farum St.";
         $testNFC['Time'] = '16-03-2016';
@@ -313,7 +316,7 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(TRUE, $actualResult);
     }
     public function testCreateNFCMissingAllRows(){
-        $testUser = new User(null, null, null);
+        $testUser = new Employee(null, null, null);
         $testNFC['RangeCheck'] = false;
         $testNFC['TagAddress'] =  "";
         $testNFC['Time'] = "";
@@ -325,8 +328,9 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         $actualResult = $this->object->createNFC($data);
         $this->assertNotEquals(TRUE, $actualResult);
         
-    }public function testCreateNFCMissingUser(){
-        $testUser = new User(null, null, null);
+    }
+    public function testCreateNFCMissingUser(){
+        $testUser = new Employee(null, null, null);
         $testNFC['RangeCheck'] = true;
         $testNFC['TagAddress'] =  "Skovbakkerne";
         $testNFC['Time'] = '16-03-2016';
@@ -339,7 +343,7 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         $this->assertNotEquals(TRUE, $actualResult);
         
     }public function testCreateNFCMissingRangeCheck(){
-        $testUser = new User(1, "Mike", "Heerwagen");
+        $testUser = new Employee(1, "Mike", "Heerwagen");
         $testNFC['RangeCheck'] = null;
         $testNFC['TagAddress'] =  "Skovbakkerne";
         $testNFC['Time'] = '16-03-2016';
@@ -352,7 +356,7 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(TRUE, $actualResult);
         
     }public function testCreateNFCMissingTagAddress(){
-        $testUser = new User(1, "Mike", "Heerwagen");
+        $testUser = new Employee(1, "Mike", "Heerwagen");
         $testNFC['RangeCheck'] = true;
         $testNFC['TagAddress'] =  null;
         $testNFC['Time'] = '16-03-2016';
@@ -365,7 +369,7 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         $this->assertNotEquals(TRUE, $actualResult);
         
     }public function testCreateNFCMissingTime(){
-        $testUser = new User(1, "Mike", "Heerwagen");
+        $testUser = new Employee(1, "Mike", "Heerwagen");
         $testNFC['RangeCheck'] = true;
         $testNFC['TagAddress'] =  "Tronsgårdsvej 42";
         $testNFC['Time'] = null;
@@ -378,7 +382,7 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(TRUE, $actualResult);
         
     }public function testCreateNFCMissingEntireUser(){
-        $testUser = new User(1, "Mike", "Heerwagen");
+        $testUser = new Employee(1, "Mike", "Heerwagen");
         $testNFC['RangeCheck'] = true;
         $testNFC['TagAddress'] =  "Tronsgårdsvej 42";
         $testNFC['Time'] = '16-06-2016';
@@ -391,7 +395,7 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         $this->assertNotEquals(TRUE, $actualResult);
         
     }public function testCreateNFCMissingRangeCheckAndTagAddress(){
-        $testUser = new User(1, "Mike", "Heerwagen");
+        $testUser = new Employee(1, "Mike", "Heerwagen");
         $testNFC['RangeCheck'] = null;
         $testNFC['TagAddress'] =  null;
         $testNFC['Time'] = '13-11-2014';
@@ -404,7 +408,7 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         $this->assertNotEquals(TRUE, $actualResult);
         
     }public function testCreateNFCMissingTimeAndRangeCheck(){
-        $testUser = new User(1, "Mike", "Heerwagen");
+        $testUser = new Employee(1, "Mike", "Heerwagen");
         $testNFC['RangeCheck'] = null;
         $testNFC['TagAddress'] =  "Søborg Hovedgade";
         $testNFC['Time'] = null;
@@ -423,13 +427,13 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
      */
     public function testCreateNFCsFilled(){
         //First NFC object
-        $testUser1 = new User(1, "Mike", "Heerwagen");
+        $testUser1 = new Employee(1, "Mike", "Heerwagen");
         $testNFC1['RangeCheck'] = true;
         $testNFC1['TagAddress'] =  "Kollegiebakken";
         $testNFC1['Time'] = '15-05-2016';
         $testNFC1['User'] = $testUser1->getFirstname();
         //second NFC object
-        $testUser2 = new User(2, "Thomas", "Kragsberger");
+        $testUser2 = new Employee(2, "Thomas", "Kragsberger");
         $testNFC2['RangeCheck'] = true;
         $testNFC2['TagAddress'] =  "Farum St";
         $testNFC2['Time'] = null;
@@ -442,13 +446,13 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(true, $actualResult);
     }    public function testCreateNFCsWithErrorRangeCheckAndTagAddress(){
         //First NFC object
-        $testUser1 = new User(1, "Mike", "Heerwagen");
+        $testUser1 = new Employee(1, "Mike", "Heerwagen");
         $testNFC1['RangeCheck'] = null;
         $testNFC1['TagAddress'] =  null;
         $testNFC1['Time'] = '15-05-2016';
         $testNFC1['User'] = $testUser1->getFirstname();
         //second NFC object
-        $testUser2 = new User(2, "Thomas", "Kragsberger");
+        $testUser2 = new Employee(2, "Thomas", "Kragsberger");
         $testNFC2['RangeCheck'] = true;
         $testNFC2['TagAddress'] =  "Farum St";
         $testNFC2['Time'] = null;
@@ -472,7 +476,7 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
                 
             
         $actualResult = $this->object->createCustomer($data);
-        $this->assertEquals(TRUE, $actualResult);
+        $this->assertNotEquals(TRUE, $actualResult);
     }
     
     public function testCustomersFilled(){
@@ -494,7 +498,7 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         $testArray = array($testCustomer,$testCustomer2);
         $json_data = json_encode($testArray);
         $data = json_decode($json_data);
-        $actualResult = $this->object->createNFCs($data);
+        $actualResult = $this->object->createCustomers($data);
         $this->assertEquals(true, $actualResult);
     }
     
