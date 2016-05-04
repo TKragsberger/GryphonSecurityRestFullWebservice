@@ -9,8 +9,12 @@ class Connection {
             $user       = 'kragsberger_dk';
             $password   = 'Noibti8280';
             $db         = 'kragsberger_dk';
-            
+           try{
             $conn       = new mysqli($dbHost, $user, $password, $db);
+               
+           } catch (Exception $ex) {
+              echo 'Connection failed: ' . $ex->getMessage();
+           } 
             return $conn;
         }
         

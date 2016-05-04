@@ -9,35 +9,25 @@ include("../connection.php");
 
 class dataSource {
 
-    private static $conn;
+     private static $conn;
+//   function __construct(){
+//       static::$conn = $this->getConnection();  
+//       echo static::$conn;
+//}
+    
+   
 
-    private function getConnection() {
+    public function getConnection() {
         if (NULL === static::$conn) {
             static::$conn = new connection();
         }
         return static::$conn->getConnection();
     }
 
+
     public function getEmployee($id) {
-        $employees = array(
-            1 => new Employee(1, "Thomas", "Kragsberger"),
-            2 => new Employee(2, "Mike", "Heerwagen"),
-            3 => new Employee(3, "Jannik", "Vangsgaard")
-        );
-
-        foreach ($employees as $userId => $user) {
-            if ($userId == $id) {
-//                var_dump($user);
-                return $user;
-                break;
-            }
-        }
-        return NULL;
-    }
-
-    public function getEmployeeDB($id) {
-        $conn = $this->getConnection();
-        $conn->query('set NAMES utf8');
+       $conn = $this->getConnection();
+       $conn->query('set NAMES utf8');
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
@@ -54,9 +44,10 @@ class dataSource {
         return $employee;
     }
 
-    public function getCustomerDB($id) {
+    public function getCustomer($id) {
         $conn = $this->getConnection();
         $conn->query('set NAMES utf8');
+        
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
@@ -73,7 +64,7 @@ class dataSource {
         return $customer;
     }
 
-    public function createAlarmReportDB($alarmreport) {
+    public function createAlarmReport($alarmreport) {
         $conn = $this->getConnection();
         $conn->query('set NAMES utf8');
         if ($conn->connect_error) {
@@ -122,17 +113,17 @@ class dataSource {
         }
     }
 
-    public function createAlarmReportsDB($alarmreports) {
+    public function createAlarmReports($alarmreports) {
 
         foreach ($alarmreports as $alarmreport) {
-            if (!$this->createAlarmReportDB($alarmreport)) {
+            if (!$this->createAlarmReport($alarmreport)) {
                 return false;
             }
         }
         return true;
     }
 
-    public function getAddressDB($data) {
+    public function getAddress($data) {
         $conn = $this->getConnection();
         $conn->query('set NAMES utf8');
         if ($conn->connect_error) {
@@ -149,7 +140,7 @@ class dataSource {
         return $address;
     }
 
-    public function createNFCDB($nfc) {
+    public function createNFC($nfc) {
         $conn = $this->getConnection();
         $conn->query('set NAMES utf8');
         if ($conn->connect_error) {
@@ -162,16 +153,16 @@ class dataSource {
         return $result;
     }
 
-    public function createNFCsDB($nfcs) {
+    public function createNFCs($nfcs) {
         foreach ($nfcs as $nfc) {
-            if (!$this->createNFCDB($nfc)) {
+            if (!$this->createNFC($nfc)) {
                 return false;
             }
         }
         return true;
     }
 
-    public function createCustomerDB($customer) {
+    public function createCustomer($customer) {
         $conn = $this->getConnection();
         $conn->query('set NAMES utf8');
         if ($conn->connect_error) {
@@ -185,111 +176,7 @@ class dataSource {
         return $result;
     }
 
-    public function createCustomersDB($customers) {
-        foreach ($customers as $customer) {
-            if (!$this->createCustomerDB($customer)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public function getCustomer($id) {
-        $customers = array(
-            1 => new Customer("Thomas Kragsberger", 1, "Bybækterrasserne 137 D", 3520, "Farum", 27708834),
-            2 => new customer("Jannik Vangsgaard", 2, "Hovedgade 40", 2860, "Søborg", 22250898),
-            3 => new customer("Mike Heerwagen", 3, "Kollegiebakken 9", 2800, "Lyngby", 41836990)
-        );
-
-        foreach ($customers as $customerId => $customer) {
-            if ($customerId == $id) {
-                return $customer;
-                break;
-            }
-        }
-        return NULL;
-    }
-
-    public function createAlarmReport($alarmreport) {
-        /**       $returnAlarmReport = new alarmReport($alarmreport->CustomerName, $alarmreport->CustomerNumber, 
-          $alarmreport->StreetAndHouseNumber, $alarmreport->ZipCode, $alarmreport->City,
-          $alarmreport->Phonenumber, $alarmreport->Date, $alarmreport->Time, $alarmreport->Zone,
-          $alarmreport->BurglaryVandalism, $alarmreport->WindowDoorClosed,
-          $alarmreport->ApprehendedPerson, $alarmreport->StaffError,
-          $alarmreport->NothingToReport, $alarmreport->TechnicalError,
-          $alarmreport->UnknownReason, $alarmreport->Other, $alarmreport->CancelDuringEmergency,
-          $alarmreport->CoverMade, $alarmreport->Remark, $alarmreport->Name,
-          $alarmreport->Installer, $alarmreport->ControlCenter, $alarmreport->GuardRadioedDate,
-          $alarmreport->GuardRadioedFrom, $alarmreport->GuardRadioedTo, $alarmreport->ArrivedAt,
-          $alarmreport->Done, $alarmreport->User);
-         */
-        return $alarmreport;
-    }
-
-    public function createAlarmReports($alarmreports) {
-        //var_dump($alarmreports);
-        /**        $returnAlarmReport = new alarmReport($alarmreports[0]->CustomerName, $alarmreports[0]->CustomerNumber, 
-          $alarmreports[0]->StreetAndHouseNumber, $alarmreports[0]->ZipCode, $alarmreports[0]->City,
-          $alarmreports[0]->Phonenumber, $alarmreports[0]->Date, $alarmreports[0]->Time, $alarmreports[0]->Zone,
-          $alarmreports[0]->BurglaryVandalism, $alarmreports[0]->WindowDoorClosed,
-          $alarmreports[0]->ApprehendedPerson, $alarmreports[0]->StaffError,
-          $alarmreports[0]->NothingToReport, $alarmreports[0]->TechnicalError,
-          $alarmreports[0]->UnknownReason, $alarmreports[0]->Other, $alarmreports[0]->CancelDuringEmergency,
-          $alarmreports[0]->CoverMade, $alarmreports[0]->Remark, $alarmreports[0]->Name,
-          $alarmreports[0]->Installer, $alarmreports[0]->ControlCenter, $alarmreports[0]->GuardRadioedDate,
-          $alarmreports[0]->GuardRadioedFrom, $alarmreports[0]->GuardRadioedTo, $alarmreports[0]->ArrivedAt,
-          $alarmreports[0]->Done, $alarmreports[0]->User);
-          //  echo 'Thomas..' . $returnAlarmReport->getCustomerName();
-         */
-        return $alarmreports;
-    }
-
-    public function getAddress($id) {
-        $addresses = array(
-            1 => new address(1,"Københavns hovedbanegård", 55.6928897, 12.547805),
-            2 => new address(2,"Lyngby St.", 55.6928897, 12.502867899999956),
-            3 => new address(3,"Farum St.", 55.8117694, 12.373767000000043)
-        );
-
-        foreach ($addresses as $addressid => $address) {
-            if ($addressid == $id) {
-                return $address;
-                break;
-            }
-        }
-        // var_dump($address);
-        return NULL;
-    }
-
-    public function createNFC($nfc) {
-
-        $returnNFC = new NFC($nfc->RangeCheck, $nfc->TagAddress, $nfc->Time, $nfc->User);
-        if ($returnNFC->getTagAddress() != "" && $returnNFC->getEmployee() != "") {
-            return true;
-        }
-        return false;
-    }
-
-    public function createNFCs($nfcs) {
-
-        foreach ($nfcs as $nfc) {
-            if (!$this->createNFC($nfc)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public function createCustomer($customer) {
-        $returnCustomer = new customer($customer->CustomerName, $customer->CustomerNumber, $customer->StreetHouseNumber, $customer->ZipCode, $customer->City, $customer->Phonenumber);
-
-        if ($returnCustomer->getCustomerName() != "" && $returnCustomer->getCustomerNumber() != "" && $returnCustomer->getStreetHouseNumber() != "" && $returnCustomer->getZipCode() != "" && $returnCustomer->getCity() != "" && $returnCustomer->getPhonenumber() != "") {
-            return true;
-        }return false;
-    }
-
     public function createCustomers($customers) {
-
         foreach ($customers as $customer) {
             if (!$this->createCustomer($customer)) {
                 return false;
@@ -297,5 +184,17 @@ class dataSource {
         }
         return true;
     }
+
+
+
+   
+
+
+
+
+
+
+
+   
 
 }
