@@ -28,6 +28,42 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         
     }
 
+    
+    public function testEmployeeClass(){
+        $testEmployee = new Employee(1, "Mike", "Heerwagen");
+        $this->AssertEquals(1,$testEmployee->getEmployeeId());
+        $testEmployee->setEmployeeId(2);
+        $this->AssertEquals(2,$testEmployee->getEmployeeId());
+        $this->AssertEquals("Mike", $testEmployee->getFirstname());
+        $testEmployee->setFirstname("Thomas");
+        $this->AssertEquals("Thomas", $testEmployee->getFirstname());
+        $this->AssertEquals("Heerwagen", $testEmployee->getLastname());
+        $testEmployee->setLastname("Thom Thom");
+        $this->AssertEquals("Thom Thom", $testEmployee->getLastname());
+    }
+    public function testCloseConnection(){
+        $connection = new Connection();
+        $conn = $this->object->getConnection();
+        $connection->closeConnection($conn);
+    }
+    public function testNFCClass(){
+        $testNFC = new NFC(false, "Lyngby", "nu", "Test");
+        $this->AssertEquals(false, $testNFC->getRangeCheck());
+        $testNFC->setRangeCheck(true);
+        $this->AssertEquals(true, $testNFC->getRangeCheck());
+        $this->AssertEquals("Lyngby", $testNFC->getTagAddress());
+        $testNFC->setTagAddress("Farum St.");
+        $this->AssertEquals("Farum St.", $testNFC->getTagAddress());
+        $this->AssertEquals("nu", $testNFC->getTime());
+        $testNFC->setTime("herognu");
+        $this->AssertEquals("herognu", $testNFC->getTime());
+        $this->AssertEquals("Test", $testNFC->getEmployee());
+        $testNFC->setUser("Mike");
+        $this->AssertEquals("Mike", $testNFC->getEmployee());
+        
+        
+    }
+    
     /**
      * @covers dataSource::getEmployee
      * @todo   Implement testgetEmployee().
@@ -48,7 +84,6 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         // Remove the following lines when you implement this test.
         $testCustomer = new customer("Thomas Kragsberger", 1, "Bybækterrasserne 137 D", 3520, "Farum", 27708834);
         $actualresult = $this->object->getCustomer(1);
-
         $this->assertEquals($testCustomer, $actualresult);
         
     }
@@ -73,41 +108,41 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testCreateAlarmReportCustomerName(){
-        $testAlarmReport = new alarmReport("Thomas", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualResult = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals("Thomas",$actualResult->getCustomerName());
         
         
     }
     public function testCreateAlarmReportCustomerNumber(){
-        $testAlarmReport = new alarmReport(NULL, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals(3, $actualReulst->getCustomerNumber());
         
         
     }
       public function testCreateAlarmReportStreetAndHouseNumber(){
-        $testAlarmReport = new alarmReport(NULL, NULL, "Farum Stationsvej 2", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals("Farum Stationsvej 2", $actualReulst->getStreetAndHouseNumber());
         
         
     }
        public function testCreateAlarmReportZipCode(){
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , 2860, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals(2860, $actualReulst->getZipCode());
         
         
     }   public function testCreateAlarmReportCity(){
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, "Kgs. Lyngby", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals("Kgs. Lyngby", $actualReulst->getCity());
         
         
     }
        public function testCreateAlarmReportPhoneNumber(){
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, 22250898, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals(22250898, $actualReulst->getPhoneNumber());
         
@@ -115,139 +150,139 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
     }   
     public function testCreateAlarmReportDate(){
         $testTime = new DateTime('18-04-2016');
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, $testTime, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);        
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals($testTime, $actualReulst->getDate());
         
         
     } public function testCreateAlarmReportTime(){
          $testTime = new DateTime('14:08:04');
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, $testTime, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals($testTime, $actualReulst->getTime());
         
         
     }public function testCreateAlarmReportZone(){
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, "Zone 4", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals("Zone 4", $actualReulst->getZone());
         
         
     }public function testCreateAlarmReportBurglaryVandalism(){
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, true, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals(true, $actualReulst->getBurglaryVandalism());
         
         
     }public function testCreateAlarmReportWindowDoorClosed(){
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, true, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals(true, $actualReulst->getWindowDoorClosed());
         
         
     }public function testCreateAlarmReportApprehendedPerson(){
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, true, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals(true, $actualReulst->getApprehendedPerson());
         
         
     }public function testCreateAlarmReportStaffError(){
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, true, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals(true, $actualReulst->getStaffError());
         
         
     }public function testCreateAlarmReportNothingToReport(){
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, true, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals(true, $actualReulst->getNothingToReport());
         
         
     }public function testCreateAlarmReportTechnicalError(){
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, true, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals(true, $actualReulst->getTechnicalError());
         
         
     }public function testCreateAlarmReportUnknownReason(){
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, true, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals(true, $actualReulst->getUnknownReason());
         
         
     }public function testCreateAlarmReportOther(){
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, true, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals(true, $actualReulst->getOther());
         
         
     }public function testCreateAlarmReportCancelDuringEmergency(){
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, true, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals(true, $actualReulst->getCancelDuringEmergency());
         
         
     }public function testCreateAlarmReportCoverMade(){
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, true, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals(true, $actualReulst->getCoverMade());
         
         
     }public function testCreateAlarmReportRemark(){
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, "Intet at bemærke", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals("Intet at bemærke", $actualReulst->getRemark());
         
         
     }public function testCreateAlarmReportName(){
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, "Mike", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals("Mike", $actualReulst->getName());
         
         
     }public function testCreateAlarmReportInstaller(){
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, "Per", NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals("Per", $actualReulst->getInstaller());
         
         
     }public function testCreateAlarmReportControlCenter(){
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, "Gryphon Security Aps", NULL, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals("Gryphon Security Aps", $actualReulst->getControlCenter());
         
         
     }public function testCreateAlarmReportGuardRadioedDate(){
         $testDate = new DateTime('16-03-2016');
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, $testDate, NULL, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals($testDate, $actualReulst->getGuardRadioedDate());
         
         
     }public function testCreateAlarmReportGuardRadioedFrom(){
         $testTime = new DateTime('13:37:54');
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, $testTime, NULL, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals($testTime, $actualReulst->getGuardRadioedFrom());
         
         
     }public function testCreateAlarmReportGuardRadioedTo(){
         $testTime = new DateTime('14:56:32');
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, $testTime, NULL, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals($testTime, $actualReulst->getGuardRadioedTo());
         
         
     }public function testCreateAlarmReportArrivedAt(){
         $testTime = new DateTime('16:18:34');
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, $testTime, NULL, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals($testTime, $actualReulst->getArrivedAt());
         
         
     }public function testCreateAlarmReportDone(){
         $testTime = new DateTime('22:30:34');
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, $testTime, NULL);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals($testTime, $actualReulst->getDone());
         
@@ -255,7 +290,7 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
     }
     public function testCreateAlarmReportUser(){
         $testUser = new Employee(1, "Thomas", "Kragsberger");
-        $testAlarmReport = new alarmReport(NULL, NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,NULL , NULL, $testUser);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals($testUser->getEmployeeId(), $actualReulst->getEmployee()->getEmployeeId());
         
@@ -263,7 +298,7 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
     }
     public function testCreateAlarmReportUserAndCustomerName(){
         $testUser = new Employee(1, "Thomas", "Kragsberger");
-        $testAlarmReport = new alarmReport("Per", NULL,NULL , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,NULL , NULL, $testUser);
+        $testAlarmReport = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
         $actualReulst = $this->object->createAlarmReport($testAlarmReport);
         $this->assertEquals($testUser->getEmployeeId(), $actualReulst->getEmployee()->getEmployeeId());
         $this->assertEquals($testAlarmReport->getCustomerName(), $actualReulst->getCustomerName());
@@ -281,8 +316,8 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
      */
     public function testCreateAlarmReports() {
         // Remove the following lines when you implement this test.
-       $testAlarmReport1 = new alarmReport("test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test");
-       $testAlarmReport2 = new alarmReport("test1", "test1", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test");
+       $testAlarmReport1 = new alarmReport("Thomas", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
+       $testAlarmReport2 = new alarmReport("Mike", 1000, "farum", 2200, "Farum", 22250898, '2016-02-15', '12:41:54', "zone 4", true, false, true, false, true, false, false, true, "ib", false, '12:54:24', false, "tomstring", "thomthom", "1", "2", "3", '2016-02-15', '23:14:24', '14:12:13','15:23:50','15:23:50',2);
        $myArray = array($testAlarmReport1,$testAlarmReport2);
        $actualResult = $this->object->createAlarmReports($myArray);
        $this->assertEquals($myArray,$actualResult);
@@ -295,8 +330,8 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetAddress() {
         // Remove the following lines when you implement this test.
-        $testAddress = new address(1,"Farum St.", 55.8117694, 12.373767000000043);
-        $actualResult = $this->object->getAddress(3);
+        $testAddress = new address(1,"Alarmpanel stuen gammel bygning", 55.8117694, 12.373767000000043);
+        $actualResult = $this->object->getAddress('10c5bf4758f64559d4c2ca6adcd8fd08');
         $this->assertEquals($testAddress->getAddressName(), $actualResult->getAddressName());
     }
     /**
@@ -502,6 +537,7 @@ class dataSourceTest extends PHPUnit_Framework_TestCase {
         $actualResult = $this->object->createCustomers($data);
         $this->assertEquals(true, $actualResult);
     }
+    
     
 
 }
