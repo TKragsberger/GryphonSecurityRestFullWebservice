@@ -6,7 +6,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
 {
     $request_body = file_get_contents('php://input');
     $data = json_decode($request_body);
-    $result = $dataSource->createAlarmReport($data);
+    $result = $dataSource->createAlarmReportTemp($data);
     
    // var_dump($result);
     deliver_response(200, true,$result);

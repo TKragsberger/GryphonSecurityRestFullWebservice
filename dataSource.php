@@ -192,50 +192,48 @@ class dataSource {
             die("Connection failed: " . $conn->connect_error);
         }
         
-        $date = htmlspecialchars($alarmreport->Date);
-        $time = htmlspecialchars($alarmreport->Time);
-        $zone = htmlspecialchars($alarmreport->Zone);
-        $burglaryVandalism = htmlspecialchars($this->convertBoolean($alarmreport->BurglaryVandalism));
-        $windowDoorClosed = htmlspecialchars($this->convertBoolean($alarmreport->WindowDoorClosed));
-        $apprehendedPerson = htmlspecialchars($this->convertBoolean($alarmreport->ApprehendedPerson));
-        $staffError = htmlspecialchars($this->convertBoolean($alarmreport->StaffError));
-        $unknownReason = htmlspecialchars($this->convertBoolean($alarmreport->UnknownReason));
-        $technicalError = htmlspecialchars($this->convertBoolean($alarmreport->TechnicalError));
-        $nothingToReport = htmlspecialchars($this->convertBoolean($alarmreport->NothingToReport));
-        $other = htmlspecialchars($this->convertBoolean($alarmreport->Other));
-        $reasonCodeId = htmlspecialchars($this->convertNull($alarmreport->ReasonCodeId));
-        $cancelDuringEmergency = htmlspecialchars($this->convertBoolean($alarmreport->CancelDuringEmergency));
-        $cancelDuringEmergencyTime = htmlspecialchars($this->convertNull($alarmreport->CancelDuringEmergencyTime));
-        $coverMade = htmlspecialchars($this->convertBoolean($alarmreport->CoverMade));
-        $coverMadeBy = htmlspecialchars($this->convertNull($alarmreport->CoverMadeBy));
-        $remark = htmlspecialchars($alarmreport->Remark);
-        $name = htmlspecialchars($alarmreport->Name); 
-        $installer = htmlspecialchars($alarmreport->Installer);
-        $controlCenter = htmlspecialchars($alarmreport->ControlCenter);
-        $guardRadioedDate = htmlspecialchars($alarmreport->GuardRadioedDate);
-        $guardRadioedFrom = htmlspecialchars($alarmreport->GuardRadioedFrom);
-        $guardRadioedTo = htmlspecialchars($alarmreport->GuardRadioedTo);
-        $arrivedAt = htmlspecialchars($alarmreport->ArrivedAt);
-        $done = htmlspecialchars($alarmreport->Done);
-        $employeeId = htmlspecialchars($alarmreport->EmployeeId);
-        $reportCreated = htmlspecialchars($alarmreport->ReportCreated);
-        $customerName = htmlspecialchars($alarmreport->CustomerName);
-        $customerNumber = htmlspecialchars($alarmreport->CustomerNumber);
-        $streetAndHouseNumber = htmlspecialchars($alarmreport->StreetAndHouseNumber);
-        $zipCode = htmlspecialchars($alarmreport->ZipCode);
-        $city = htmlspecialchars($alarmreport->City);
-        $phonenumber = htmlspecialchars($alarmreport->Phonenumber);
-        
+        $date = $alarmreport->Date;
+        $time = $alarmreport->Time;
+        $zone = $alarmreport->Zone;
+        $burglaryVandalism = $this->convertBoolean($alarmreport->BurglaryVandalism);
+        $windowDoorClosed = $this->convertBoolean($alarmreport->WindowDoorClosed);
+        $apprehendedPerson = $this->convertBoolean($alarmreport->ApprehendedPerson);
+        $staffError = $this->convertBoolean($alarmreport->StaffError);
+        $unknownReason = $this->convertBoolean($alarmreport->UnknownReason);
+        $technicalError = $this->convertBoolean($alarmreport->TechnicalError);
+        $nothingToReport = $this->convertBoolean($alarmreport->NothingToReport);
+        $other = $this->convertBoolean($alarmreport->Other);
+        $reasonCodeId = $alarmreport->ReasonCodeId;
+        $cancelDuringEmergency = $this->convertBoolean($alarmreport->CancelDuringEmergency);
+        $cancelDuringEmergencyTime = $alarmreport->CancelDuringEmergencyTime;
+        $coverMade = $this->convertBoolean($alarmreport->CoverMade);
+        $coverMadeBy = $this->convertNull($alarmreport->CoverMadeBy);
+        $remark = $alarmreport->Remark;
+        $name = $alarmreport->Name; 
+        $installer = $alarmreport->Installer;
+        $controlCenter = $alarmreport->ControlCenter;
+        $guardRadioedDate = $alarmreport->GuardRadioedDate;
+        $guardRadioedFrom = $alarmreport->GuardRadioedFrom;
+        $guardRadioedTo = $alarmreport->GuardRadioedTo;
+        $arrivedAt = $alarmreport->ArrivedAt;
+        $done = $alarmreport->Done;
+        $employeeId = $alarmreport->EmployeeId;
+        $reportCreated = $alarmreport->ReportCreated;
+        $customerName = $alarmreport->CustomerName;
+        $customerNumber = $alarmreport->CustomerNumber."";
+        $streetAndHouseNumber = $alarmreport->StreetAndHouseNumber;
+        $zipCode = $alarmreport->ZipCode;
+        $city = $alarmreport->City;
+        $phonenumber = $alarmreport->Phonenumber;
+        $code = "000";
         
         $stmt = $conn->prepare("SELECT Code FROM SECURITY_APP_REASONCODE WHERE ReasonCodeId =?");
         $stmt->bind_param("s", $reasonCodeId);
-        $stmt->execute();
+        $result = $stmt->execute();
         $stmt->bind_result($code);
         $stmt->fetch();
         $stmt->close();
-        
         $reasonCode = $reasonCodeId . " -  " . $code; 
-        
         
         $stmt = $conn->prepare("SELECT Firstname, Lastname FROM SECURITY_APP_EMPLOYEE WHERE EmployeeId =?");
         $stmt->bind_param("s", $employeeId);
@@ -245,11 +243,10 @@ class dataSource {
         $stmt->close();
         
         $name = $firstname . " " . $lastname; 
-        
-        $stmt = $conn->prepare("INSERT INTO alarm_rapport (Kundenavn , Kundenr, Addresse, Postnr, "
-                . "By, Tlf, Dato, kl, Zone, Indbrud_haevaerk, Vindue_doer_lukket, "
-                . "Antuffen_person, Personalefejl, Ukendt_aarsag, Intet_at_bemaerke, Teknisk_fejl, Andet, Aasagkode, "
-                . "Afmeldt_under_udrykning, Afmeldt_under_udrykning_kl, Afdaekning_foretaget, Afdaekning_foretaget_af, Bemaerkning, "
+        $stmt = $conn->prepare("INSERT INTO alarm_rapport (Kundenavn, Kundenr, Addresse, Postnr, "
+                . "`By`, Tlf, Dato, kl, Zone, Indbrud_haevaerk, Vindue_doer_lukket, "
+                . "Antruffen_person, Personalefejl, Ukendt_aarsag, Intet_at_bemaerke, Teknisk_fejl, Andet, Aarsagkode, "
+                . "Afmeldt_under_udrykning, Afmeldt_under_udrykning_kl, Afdaekning_foretaget, Afdaekning_foretaget_af, Bemaerkninger, "
                 . "Vagt, Installatoer, Kontrolcentral, Vagt_rekviveret_den_dato, Vagt_rekviveret_den_kl_fra, "
                 . "Vagt_rekviveret_den_kl_tl, Vagt_rekviveret_den_fremme, Vagt_rekviveret_den_faerdig) "
                 . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -275,7 +272,7 @@ class dataSource {
 
     public function createAlarmReportsTemp($alarmreports) {
         foreach ($alarmreports as $alarmreport) {
-            if (!$this->createAlarmReport($alarmreport)) {
+            if (!$this->createAlarmReportTemp($alarmreport)) {
                 return false;
             }
         }
@@ -290,9 +287,9 @@ class dataSource {
             die("Connection failed: " . $conn->connect_error);
         }
         
-        $briknummer = htmlspecialchars($nfc->AddressId);
+        $briknummer = $nfc->AddressId;
         
-        $stmt = $conn->prepare("SELECT id, virksomhed, navn, MD5 FROM checkpoint_brik MD5 =?");
+        $stmt = $conn->prepare("SELECT `id`, virksomhed, navn, MD5 FROM checkpoint_brik WHERE MD5 =?");
         $stmt->bind_param("s", $briknummer);
 
         $stmt->execute();
@@ -310,7 +307,7 @@ class dataSource {
     public function createNFCsTemp($nfcs) {
 
         foreach ($nfcs as $nfc) {
-            if (!$this->createNFC($nfc)) {
+            if (!$this->createNFCTemp($nfc)) {
                 return false;
             }
         }
@@ -326,7 +323,7 @@ class dataSource {
         
         $searchParameter = htmlspecialchars($data);
         
-        $stmt = $conn->prepare("SELECT navn FROM checkpoint_brik MD5 =?");
+        $stmt = $conn->prepare("SELECT navn FROM checkpoint_brik WHERE MD5 =?");
         $stmt->bind_param("s", $searchParameter);
 
         $stmt->execute();
