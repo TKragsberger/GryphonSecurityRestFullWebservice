@@ -5,10 +5,14 @@ class Connection {
 //            $user       = 'root';
 //            $password   = '';
 //            $db         = 'kragsberger_dk';
-            $dbHost     = 'kragsberger.dk.mysql';
-            $user       = 'kragsberger_dk';
-            $password   = 'Noibti8280';
-            $db         = 'kragsberger_dk';
+//            $dbHost     = 'kragsberger.dk.mysql';
+//            $user       = 'kragsberger_dk';
+//            $password   = 'Noibti8280';
+//            $db         = 'kragsberger_dk';
+            $dbHost     = 'gryphon.dk.mysql';
+            $user       = 'gryphon_dk';
+            $password   = 'amina853';
+            $db         = 'gryphon_dk';
            try{
             $conn       = new mysqli($dbHost, $user, $password, $db);
                
